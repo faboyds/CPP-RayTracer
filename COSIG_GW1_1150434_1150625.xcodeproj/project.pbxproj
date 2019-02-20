@@ -12,6 +12,7 @@
 		94D152D1221D9024006DAECB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D152D0221D9024006DAECB /* main.cpp */; };
 		94D152D8221D908B006DAECB /* transformation_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D152D7221D908B006DAECB /* transformation_utils.cpp */; };
 		94D189A7221E0C69004056EA /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189A5221E0C69004056EA /* image.cpp */; };
+		94D189AA221E1037004056EA /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189A8221E1037004056EA /* light.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +39,8 @@
 		94D152DD221D93CE006DAECB /* evaluation_scene.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = evaluation_scene.txt; sourceTree = "<group>"; };
 		94D189A5221E0C69004056EA /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		94D189A6221E0C69004056EA /* image.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = image.hpp; sourceTree = "<group>"; };
+		94D189A8221E1037004056EA /* light.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = light.cpp; sourceTree = "<group>"; };
+		94D189A9221E1037004056EA /* light.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = light.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +82,8 @@
 				9441982F221DAE74003535E4 /* transformation.hpp */,
 				94D189A5221E0C69004056EA /* image.cpp */,
 				94D189A6221E0C69004056EA /* image.hpp */,
+				94D189A8221E1037004056EA /* light.cpp */,
+				94D189A9221E1037004056EA /* light.hpp */,
 			);
 			path = COSIG_GW1_1150434_1150625;
 			sourceTree = "<group>";
@@ -150,6 +155,7 @@
 			files = (
 				9441982C221D9DD3003535E4 /* material.cpp in Sources */,
 				94D152D8221D908B006DAECB /* transformation_utils.cpp in Sources */,
+				94D189AA221E1037004056EA /* light.cpp in Sources */,
 				94D189A7221E0C69004056EA /* image.cpp in Sources */,
 				94419830221DAE74003535E4 /* transformation.cpp in Sources */,
 				94D152D1221D9024006DAECB /* main.cpp in Sources */,
