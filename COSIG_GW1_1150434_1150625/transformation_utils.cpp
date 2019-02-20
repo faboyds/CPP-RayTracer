@@ -6,6 +6,8 @@
 //  Copyright © 2019 Fábio Lourenço. All rights reserved.
 //
 
+#pragma warning(disable : 4996)
+
 #define _USE_MATH_DEFINES
 
 #include <math.h>
@@ -184,12 +186,12 @@ void process(void)
     int m, i;
     double pointA[4], pointB[4];
     
-    while (scanf_s("%d", &m) != EOF)
+    while (scanf("%d", &m) != EOF)
     {
         printf("%d\n", m);
         for (i = 0; i < 3; i++)
         {
-            scanf_s("%lf %lf %lf", &pointA[0], &pointA[1], &pointA[2]);
+            scanf("%lf %lf %lf", &pointA[0], &pointA[1], &pointA[2]);
             pointA[3] = 1.0;
             multiply1(pointA, pointB);
             printf("%lf %lf %lf\n", pointB[0] / pointB[3], pointB[1] / pointB[3], pointB[2] / pointB[3]);
