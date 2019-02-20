@@ -19,9 +19,11 @@
 
 #include "material.hpp"
 #include "transformation.hpp"
+#include "image.hpp"
 
 std::ifstream testSceneFile("../resources/test_scene.txt");
 
+Image image;
 std::vector<Material> materials;
 std::vector<Transformation> transformations;
 
@@ -66,7 +68,29 @@ void importScene() {
         trim(line);
 
         if(line.compare("Image") == 0) {
-            std::cout << line << "\n";
+            
+            std::getline(testSceneFile, line); //read '{'
+            
+            std::string size;
+            std::string rgb;
+            
+            //read size
+            std::getline(testSceneFile, size);
+            trim(size);
+            std::vector<std::string> sizeSplitted = split(size, ' ');
+            double width = std::atof(sizeSplitted[0].c_str());
+            double height = std::atof(sizeSplitted[1].c_str());
+            
+            //read RGB
+            std::getline(testSceneFile, rgb);
+            trim(rgb);
+            std::vector<std::string> rgbSplitted = split(rgb, ' ');
+            double red = std::atof(rgbSplitted[0].c_str());
+            double green = std::atof(rgbSplitted[1].c_str());
+            double blue = std::atof(rgbSplitted[2].c_str());
+
+            image = Image(width, height, red, green, blue);
+            std::cout << image << std::endl;
         }
         
         if(line.compare("Transformation") == 0) {
@@ -189,8 +213,6 @@ void importScene() {
 
 int main(int argc, const char * argv[]) {
     importScene();
-    
-	system("pause");
 
     return 0;
 }
