@@ -22,9 +22,10 @@
 #include "image.hpp"
 #include "light.hpp"
 #include "box.hpp"
+#include "sphere.hpp"
 #include "sceneObject.hpp"
 
-std::ifstream testSceneFile("../resources/test_scene.txt");
+std::ifstream testSceneFile("/Users/fabiolourenco/Projects/CPP-RayCasting/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
 
 Image image;
 std::vector<Material> materials;
@@ -229,7 +230,28 @@ void importScene() {
         }
         
         if(line.compare("Sphere") == 0) {
-            std::cout << line << "\n";
+            
+            std::getline(testSceneFile, line); //read '{'
+            
+            std::string transformationIndex;
+            std::string materialIndex;
+            
+            //read transformation index
+            std::getline(testSceneFile, transformationIndex);
+            trim(transformationIndex);
+            int transformationIndexValue = std::stoi(transformationIndex.c_str());
+            
+            //read material index
+            std::getline(testSceneFile, materialIndex);
+            trim(materialIndex);
+            int materialIndexValue = std::stoi(materialIndex.c_str());
+            
+            // create sphere
+            Sphere s(transformations.at(transformationIndexValue), materials.at(materialIndexValue));
+            std::cout << s << std::endl;
+            objects.push_back(s);
+            
+            std::getline(testSceneFile, line); //read '}'
         }
         
         if(line.compare("Box") == 0) {
