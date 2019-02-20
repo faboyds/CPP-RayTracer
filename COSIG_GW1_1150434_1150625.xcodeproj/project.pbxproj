@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9441982C221D9DD3003535E4 /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9441982A221D9DD3003535E4 /* material.cpp */; };
 		94D152D1221D9024006DAECB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D152D0221D9024006DAECB /* main.cpp */; };
 		94D152D8221D908B006DAECB /* transformation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D152D7221D908B006DAECB /* transformation.cpp */; };
 /* End PBXBuildFile section */
@@ -24,6 +25,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9441982A221D9DD3003535E4 /* material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = material.cpp; sourceTree = "<group>"; };
+		9441982B221D9DD3003535E4 /* material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = material.hpp; sourceTree = "<group>"; };
 		94D152CD221D9024006DAECB /* COSIG_GW1_1150434_1150625 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = COSIG_GW1_1150434_1150625; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D152D0221D9024006DAECB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		94D152D7221D908B006DAECB /* transformation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = transformation.cpp; sourceTree = "<group>"; };
@@ -64,6 +67,8 @@
 				94D152D9221D92CC006DAECB /* resources */,
 				94D152D0221D9024006DAECB /* main.cpp */,
 				94D152D7221D908B006DAECB /* transformation.cpp */,
+				9441982A221D9DD3003535E4 /* material.cpp */,
+				9441982B221D9DD3003535E4 /* material.hpp */,
 			);
 			path = COSIG_GW1_1150434_1150625;
 			sourceTree = "<group>";
@@ -133,6 +138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9441982C221D9DD3003535E4 /* material.cpp in Sources */,
 				94D152D8221D908B006DAECB /* transformation.cpp in Sources */,
 				94D152D1221D9024006DAECB /* main.cpp in Sources */,
 			);
