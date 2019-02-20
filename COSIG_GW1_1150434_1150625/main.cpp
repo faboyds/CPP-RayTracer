@@ -21,7 +21,7 @@
 #include "transformation.hpp"
 #include "camera.hpp"
 
-std::ifstream testSceneFile("../resources/test_scene.txt");
+std::ifstream testSceneFile("C:/Users/lucho/Documents/ISEP/ISEP/COSIG/RayTracer/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
 
 std::vector<Material> materials;
 std::vector<Transformation> transformations;
