@@ -15,32 +15,32 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\main.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\material.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\transformation.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\transformation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\transformation_utils.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\transformation_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\material.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\material.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\transformation.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\transformation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\resources\evaluation_scene.txt">
+    <Text Include="..\..\COSIG_GW1_1150434_1150625\resources\evaluation_scene.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="..\resources\test_scene.txt">
+    <Text Include="..\..\COSIG_GW1_1150434_1150625\resources\test_scene.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
