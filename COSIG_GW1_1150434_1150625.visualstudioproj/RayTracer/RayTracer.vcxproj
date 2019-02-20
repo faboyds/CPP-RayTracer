@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{F8E4F0CA-AF97-452F-8386-EF546F1BC6A3}</ProjectGuid>
-    <RootNamespace>CPPRayTracer</RootNamespace>
+    <ProjectGuid>{23F8E8AE-5AF6-482B-B32E-162C9A18C9AD}</ProjectGuid>
+    <RootNamespace>RayTracer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -115,18 +115,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\material.cpp" />
-    <ClCompile Include="..\transformation.cpp" />
-    <ClCompile Include="..\transformation_utils.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\main.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\material.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\transformation.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\transformation_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\material.hpp" />
-    <ClInclude Include="..\transformation.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\material.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\transformation.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\resources\evaluation_scene.txt" />
-    <Text Include="..\resources\test_scene.txt" />
+    <Text Include="..\..\COSIG_GW1_1150434_1150625\resources\evaluation_scene.txt" />
+    <Text Include="..\..\COSIG_GW1_1150434_1150625\resources\test_scene.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
