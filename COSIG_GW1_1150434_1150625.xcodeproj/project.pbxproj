@@ -27,6 +27,8 @@
 		94D152CD221D9024006DAECB /* COSIG_GW1_1150434_1150625 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = COSIG_GW1_1150434_1150625; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D152D0221D9024006DAECB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		94D152D7221D908B006DAECB /* transformation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = transformation.cpp; sourceTree = "<group>"; };
+		94D152DC221D93CE006DAECB /* test_scene.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = test_scene.txt; sourceTree = "<group>"; };
+		94D152DD221D93CE006DAECB /* evaluation_scene.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = evaluation_scene.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,10 +61,20 @@
 		94D152CF221D9024006DAECB /* COSIG_GW1_1150434_1150625 */ = {
 			isa = PBXGroup;
 			children = (
+				94D152D9221D92CC006DAECB /* resources */,
 				94D152D0221D9024006DAECB /* main.cpp */,
 				94D152D7221D908B006DAECB /* transformation.cpp */,
 			);
 			path = COSIG_GW1_1150434_1150625;
+			sourceTree = "<group>";
+		};
+		94D152D9221D92CC006DAECB /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				94D152DD221D93CE006DAECB /* evaluation_scene.txt */,
+				94D152DC221D93CE006DAECB /* test_scene.txt */,
+			);
+			path = resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
