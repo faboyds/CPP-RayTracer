@@ -20,11 +20,15 @@
 #include "material.hpp"
 #include "transformation.hpp"
 #include "camera.hpp"
+#include "image.hpp"
+#include "light.hpp"
 
 std::ifstream testSceneFile("C:/Users/lucho/Documents/ISEP/ISEP/COSIG/RayTracer/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
 
+Image image;
 std::vector<Material> materials;
 std::vector<Transformation> transformations;
+std::vector<Light> lights;
 
 // trim from start (in place)
 static inline void ltrim(std::string &s) {
@@ -67,7 +71,31 @@ void importScene() {
         trim(line);
 
         if(line.compare("Image") == 0) {
-            std::cout << line << "\n";
+            
+            std::getline(testSceneFile, line); //read '{'
+            
+            std::string size;
+            std::string rgb;
+            
+            //read size
+            std::getline(testSceneFile, size);
+            trim(size);
+            std::vector<std::string> sizeSplitted = split(size, ' ');
+            double width = std::atof(sizeSplitted[0].c_str());
+            double height = std::atof(sizeSplitted[1].c_str());
+            
+            //read RGB
+            std::getline(testSceneFile, rgb);
+            trim(rgb);
+            std::vector<std::string> rgbSplitted = split(rgb, ' ');
+            double red = std::atof(rgbSplitted[0].c_str());
+            double green = std::atof(rgbSplitted[1].c_str());
+            double blue = std::atof(rgbSplitted[2].c_str());
+
+            image = Image(width, height, red, green, blue);
+            std::cout << image << std::endl;
+            
+            std::getline(testSceneFile, line); //read '}'
         }
         
         if(line.compare("Transformation") == 0) {
@@ -200,7 +228,31 @@ void importScene() {
         }
         
         if(line.compare("Light") == 0) {
-            std::cout << line << "\n";
+            
+            std::getline(testSceneFile, line); //read '{'
+            
+            std::string transformationIndex;
+            std::string rgb;
+            
+            //read size
+            std::getline(testSceneFile, transformationIndex);
+            trim(transformationIndex);
+            int transformationIndexValue = std::atof(transformationIndex.c_str());
+            
+            //read RGB
+            std::getline(testSceneFile, rgb);
+            trim(rgb);
+            std::vector<std::string> rgbSplitted = split(rgb, ' ');
+            double red = std::atof(rgbSplitted[0].c_str());
+            double green = std::atof(rgbSplitted[1].c_str());
+            double blue = std::atof(rgbSplitted[2].c_str());
+            
+            // create light and add to materials vector
+            Light l(transformations.at(transformationIndexValue), red, green, blue);
+            std::cout << l << std::endl;
+            lights.push_back(l);
+            
+            std::getline(testSceneFile, line); //read '}'
         }
         
         if(line.compare("Sphere") == 0) {
@@ -219,8 +271,6 @@ void importScene() {
 
 int main(int argc, const char * argv[]) {
     importScene();
-    
-	system("pause");
 
     return 0;
 }
