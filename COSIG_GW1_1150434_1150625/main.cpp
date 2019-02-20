@@ -18,10 +18,12 @@
 #include <vector>
 
 #include "material.hpp"
+#include "transformation.hpp"
 
 std::ifstream testSceneFile("/Users/fabiolourenco/Documents/COSIG_GW1_1150434_1150625/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
 
 std::vector<Material> materials;
+std::vector<Transformation> transformations;
 
 // trim from start (in place)
 static inline void ltrim(std::string &s) {
@@ -68,7 +70,66 @@ void importScene() {
         }
         
         if(line.compare("Transformation") == 0) {
-            std::cout << line << "\n";
+            
+            std::getline(testSceneFile, line); //read '{'
+
+            Transformation t;
+            
+            while (std::getline(testSceneFile, line) && line.find("}") == std::string::npos) {
+                
+                trim(line);
+                
+                if(line.find("T") != std::string::npos) {
+                    std::vector<std::string> translate = split(line, ' '); //string format is T <x> <y> <z>, thus vector is = ['T', <x>, <y>, <z>]
+                    
+                    double x = std::atof(translate[1].c_str());
+                    double y = std::atof(translate[2].c_str());
+                    double z = std::atof(translate[3].c_str());
+                    
+                    t.x = x;
+                    t.y = y;
+                    t.z = z;
+                }
+                
+                if(line.find("S") != std::string::npos) {
+                    std::vector<std::string> scale = split(line, ' '); //string format is S <x> <y> <z>, thus vector is = ['S', <x>, <y>, <z>]
+                    
+                    double x = std::atof(scale[1].c_str());
+                    double y = std::atof(scale[2].c_str());
+                    double z = std::atof(scale[3].c_str());
+                    
+                    t.scaleX = x;
+                    t.scaleY = y;
+                    t.scaleZ = z;
+                }
+                
+                if(line.find("Rx") != std::string::npos) {
+                    std::vector<std::string> rotationX = split(line, ' '); //string format is Rx <x>, thus vector is = ['Rx', <x>]
+                    
+                    double x = std::atof(rotationX[1].c_str());
+                    
+                    t.rotationX = x;
+                }
+                
+                if(line.find("Ry") != std::string::npos) {
+                    std::vector<std::string> rotationY = split(line, ' '); //string format is Ry <y>, thus vector is = ['Ry', <y>]
+                    
+                    double y = std::atof(rotationY[1].c_str());
+                    
+                    t.rotationY = y;
+                }
+                
+                if(line.find("Rz") != std::string::npos) {
+                    std::vector<std::string> rotationZ = split(line, ' '); //string format is Rz <z>, thus vector is = ['Rz', <z>]
+                    
+                    double z = std::atof(rotationZ[1].c_str());
+                    
+                    t.rotationZ = z;
+                }
+            }
+            
+            std::cout << t << std::endl;
+            transformations.push_back(t);
         }
         
         if(line.compare("Material") == 0) {
@@ -128,6 +189,6 @@ void importScene() {
 
 int main(int argc, const char * argv[]) {
     importScene();
-
+    
     return 0;
 }
