@@ -13,6 +13,8 @@
 		94D152D8221D908B006DAECB /* transformation_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D152D7221D908B006DAECB /* transformation_utils.cpp */; };
 		94D189A7221E0C69004056EA /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189A5221E0C69004056EA /* image.cpp */; };
 		94D189AA221E1037004056EA /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189A8221E1037004056EA /* light.cpp */; };
+		94D189AD221E135A004056EA /* box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189AB221E135A004056EA /* box.cpp */; };
+		94D189B0221E1C4C004056EA /* sceneObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189AE221E1C4C004056EA /* sceneObject.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +43,10 @@
 		94D189A6221E0C69004056EA /* image.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = image.hpp; sourceTree = "<group>"; };
 		94D189A8221E1037004056EA /* light.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = light.cpp; sourceTree = "<group>"; };
 		94D189A9221E1037004056EA /* light.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = light.hpp; sourceTree = "<group>"; };
+		94D189AB221E135A004056EA /* box.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = box.cpp; sourceTree = "<group>"; };
+		94D189AC221E135A004056EA /* box.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = box.hpp; sourceTree = "<group>"; };
+		94D189AE221E1C4C004056EA /* sceneObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sceneObject.cpp; sourceTree = "<group>"; };
+		94D189AF221E1C4C004056EA /* sceneObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sceneObject.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +90,10 @@
 				94D189A6221E0C69004056EA /* image.hpp */,
 				94D189A8221E1037004056EA /* light.cpp */,
 				94D189A9221E1037004056EA /* light.hpp */,
+				94D189AB221E135A004056EA /* box.cpp */,
+				94D189AC221E135A004056EA /* box.hpp */,
+				94D189AE221E1C4C004056EA /* sceneObject.cpp */,
+				94D189AF221E1C4C004056EA /* sceneObject.hpp */,
 			);
 			path = COSIG_GW1_1150434_1150625;
 			sourceTree = "<group>";
@@ -157,6 +167,8 @@
 				94D152D8221D908B006DAECB /* transformation_utils.cpp in Sources */,
 				94D189AA221E1037004056EA /* light.cpp in Sources */,
 				94D189A7221E0C69004056EA /* image.cpp in Sources */,
+				94D189AD221E135A004056EA /* box.cpp in Sources */,
+				94D189B0221E1C4C004056EA /* sceneObject.cpp in Sources */,
 				94419830221DAE74003535E4 /* transformation.cpp in Sources */,
 				94D152D1221D9024006DAECB /* main.cpp in Sources */,
 			);
