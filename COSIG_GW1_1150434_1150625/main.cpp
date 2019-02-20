@@ -20,7 +20,7 @@
 #include "material.hpp"
 #include "transformation.hpp"
 
-std::ifstream testSceneFile("/Users/fabiolourenco/Documents/COSIG_GW1_1150434_1150625/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
+std::ifstream testSceneFile("../resources/test_scene.txt");
 
 std::vector<Material> materials;
 std::vector<Transformation> transformations;
@@ -190,5 +190,7 @@ void importScene() {
 int main(int argc, const char * argv[]) {
     importScene();
     
+	system("pause");
+
     return 0;
 }
