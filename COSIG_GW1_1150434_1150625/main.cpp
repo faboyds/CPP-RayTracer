@@ -272,5 +272,7 @@ void importScene() {
 int main(int argc, const char * argv[]) {
     importScene();
 
+	getchar(); //to press enter to leave
+
     return 0;
 }

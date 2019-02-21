@@ -30,6 +30,12 @@
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\material.hpp">
@@ -39,6 +45,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\camera.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\image.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\light.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
