@@ -19,6 +19,7 @@
 
 #include "material.hpp"
 #include "transformation.hpp"
+#include "camera.hpp"
 #include "image.hpp"
 #include "light.hpp"
 #include "box.hpp"
@@ -27,7 +28,8 @@
 #include "vertex.hpp"
 #include "sceneObject.hpp"
 
-std::ifstream testSceneFile("/Users/fabiolourenco/Projects/CPP-RayCasting/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
+std::ifstream testSceneFile("C:/Users/lucho/Documents/ISEP/ISEP/COSIG/RayTracer/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
+//std::ifstream testSceneFile("/Users/fabiolourenco/Projects/CPP-RayCasting/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
 
 Image image;
 std::vector<Material> materials;
@@ -200,7 +202,36 @@ void importScene() {
         }
         
         if(line.compare("Camera") == 0) {
-            std::cout << line << "\n";
+
+			std::getline(testSceneFile, line); //read '{'
+
+			std::string transformation_index;
+			std::string distance;
+			std::string field_of_view;
+
+			//read transformation
+			std::getline(testSceneFile, transformation_index);
+			trim(transformation_index);
+
+			int index = std::stoi(transformation_index);
+
+			// read distance
+			std::getline(testSceneFile, distance);
+			trim(distance);
+
+			double distance_double = std::stod(distance);
+
+			// read field_of_view
+			std::getline(testSceneFile, field_of_view);
+			trim(field_of_view);
+
+			double field_of_view_double = std::stod(field_of_view);
+
+			// create camera
+			Camera c(transformations[index], distance_double, field_of_view_double);
+			std::cout << c << std::endl;
+
+			std::getline(testSceneFile, line); //read '}'
         }
         
         if(line.compare("Light") == 0) {
@@ -331,6 +362,8 @@ void importScene() {
 
 int main(int argc, const char * argv[]) {
     importScene();
+
+	getchar(); //to press enter to leave
 
     return 0;
 }
