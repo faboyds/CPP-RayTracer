@@ -24,9 +24,13 @@ public:
     SceneObject();
     
     SceneObject(
-        Transformation transformation,
-        Material material
-        );
+                Transformation transformation
+                );
+    
+    SceneObject(
+                Transformation transformation,
+                Material material
+                );
     
     friend std::ostream& operator<<(std::ostream&, const SceneObject&);
 };

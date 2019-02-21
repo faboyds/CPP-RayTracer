@@ -8,6 +8,10 @@
 
 #include "material.hpp"
 
+Material::Material()
+{
+}
+
 Material::Material(double red, double green, double blue,
                    double ambient, double diffuse, double reflection, double refractionCoefficient, double refractionIndex):
                         red(red), green(green), blue(blue),

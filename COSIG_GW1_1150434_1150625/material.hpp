@@ -15,15 +15,17 @@
 class Material {
     
 public:
-    double red;
-    double green;
-    double blue;
+    double red = 0;
+    double green = 0;
+    double blue = 0;
     
-    double ambient;
-    double diffuse;
-    double reflection;
-    double refractionCoefficient;
-    double refractionIndex;
+    double ambient = 0;
+    double diffuse = 0;
+    double reflection = 0;
+    double refractionCoefficient = 0;
+    double refractionIndex = 0;
+    
+    Material();
     
     Material(double red,
              double green,

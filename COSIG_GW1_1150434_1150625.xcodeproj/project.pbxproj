@@ -16,6 +16,9 @@
 		94D189AD221E135A004056EA /* box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189AB221E135A004056EA /* box.cpp */; };
 		94D189B0221E1C4C004056EA /* sceneObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189AE221E1C4C004056EA /* sceneObject.cpp */; };
 		94D189B3221E1E9F004056EA /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189B1221E1E9F004056EA /* sphere.cpp */; };
+		94D189B6221E205E004056EA /* triangles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189B4221E205E004056EA /* triangles.cpp */; };
+		94D189B9221E20A5004056EA /* vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189B7221E20A5004056EA /* vertex.cpp */; };
+		94D189BC221E2541004056EA /* triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D189BA221E2541004056EA /* triangle.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -50,6 +53,12 @@
 		94D189AF221E1C4C004056EA /* sceneObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sceneObject.hpp; sourceTree = "<group>"; };
 		94D189B1221E1E9F004056EA /* sphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sphere.cpp; sourceTree = "<group>"; };
 		94D189B2221E1E9F004056EA /* sphere.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sphere.hpp; sourceTree = "<group>"; };
+		94D189B4221E205E004056EA /* triangles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triangles.cpp; sourceTree = "<group>"; };
+		94D189B5221E205E004056EA /* triangles.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = triangles.hpp; sourceTree = "<group>"; };
+		94D189B7221E20A5004056EA /* vertex.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = vertex.cpp; sourceTree = "<group>"; };
+		94D189B8221E20A5004056EA /* vertex.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vertex.hpp; sourceTree = "<group>"; };
+		94D189BA221E2541004056EA /* triangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triangle.cpp; sourceTree = "<group>"; };
+		94D189BB221E2541004056EA /* triangle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = triangle.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +108,12 @@
 				94D189AF221E1C4C004056EA /* sceneObject.hpp */,
 				94D189B1221E1E9F004056EA /* sphere.cpp */,
 				94D189B2221E1E9F004056EA /* sphere.hpp */,
+				94D189B4221E205E004056EA /* triangles.cpp */,
+				94D189B5221E205E004056EA /* triangles.hpp */,
+				94D189B7221E20A5004056EA /* vertex.cpp */,
+				94D189B8221E20A5004056EA /* vertex.hpp */,
+				94D189BA221E2541004056EA /* triangle.cpp */,
+				94D189BB221E2541004056EA /* triangle.hpp */,
 			);
 			path = COSIG_GW1_1150434_1150625;
 			sourceTree = "<group>";
@@ -175,7 +190,10 @@
 				94D189A7221E0C69004056EA /* image.cpp in Sources */,
 				94D189AD221E135A004056EA /* box.cpp in Sources */,
 				94D189B0221E1C4C004056EA /* sceneObject.cpp in Sources */,
+				94D189BC221E2541004056EA /* triangle.cpp in Sources */,
+				94D189B6221E205E004056EA /* triangles.cpp in Sources */,
 				94419830221DAE74003535E4 /* transformation.cpp in Sources */,
+				94D189B9221E20A5004056EA /* vertex.cpp in Sources */,
 				94D152D1221D9024006DAECB /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
