@@ -115,19 +115,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\box.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\camera.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\image.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\light.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\main.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\material.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\sceneObject.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\sphere.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\transformation.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\transformation_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\box.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\camera.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\image.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\light.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\material.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\sceneObject.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\sphere.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\transformation.hpp" />
   </ItemGroup>
   <ItemGroup>
