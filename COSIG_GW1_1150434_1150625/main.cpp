@@ -23,6 +23,8 @@
 #include "light.hpp"
 #include "box.hpp"
 #include "sphere.hpp"
+#include "triangles.hpp"
+#include "vertex.hpp"
 #include "sceneObject.hpp"
 
 std::ifstream testSceneFile("/Users/fabiolourenco/Projects/CPP-RayCasting/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
@@ -280,7 +282,49 @@ void importScene() {
         }
         
         if(line.compare("Triangles") == 0) {
-            std::cout << line << "\n";
+            
+            std::getline(testSceneFile, line); //read '{'
+            
+            std::string transformationIndex;
+            
+            //read transformation index
+            std::getline(testSceneFile, transformationIndex);
+            trim(transformationIndex);
+            int transformationIndexValue = std::stoi(transformationIndex.c_str());
+            
+            Triangles trianglesObject(transformations.at(transformationIndexValue), std::vector<Triangle>());
+            
+            while (std::getline(testSceneFile, line) && line.find("}") == std::string::npos) {
+                //read material index ^
+
+                std::string materialIndex = line;
+                trim(materialIndex);
+                int materialIndexValue = std::stoi(materialIndex.c_str());
+                
+                // create triangle
+                Triangle triangle(materials.at(materialIndexValue), std::vector<Vertex>());
+                
+                for( int i = 0; i < 3; i++ ) {
+                    std::string position;
+
+                    //read position
+                    std::getline(testSceneFile, position);
+                    trim(position);
+                    std::vector<std::string> positionSplitted = split(position, ' ');
+                    double x = std::atof(positionSplitted[0].c_str());
+                    double y = std::atof(positionSplitted[1].c_str());
+                    double z = std::atof(positionSplitted[2].c_str());
+                    
+                    Vertex v(x, y, z);
+                    triangle.vertices.push_back(v);
+                }
+                
+                std::cout << triangle << std::endl;
+                trianglesObject.triangles.push_back(triangle);
+            }
+            
+            std::cout << trianglesObject << std::endl;
+            objects.push_back(trianglesObject);
         }
     }
 }
