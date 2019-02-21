@@ -21,13 +21,14 @@
 #include "sceneObject.hpp"
 
 Image image;
+Camera camera;
 std::vector<Material> materials;
 std::vector<Transformation> transformations;
 std::vector<Light> lights;
 std::vector<SceneObject> objects;
 
 int main(int argc, const char * argv[]) {
-    import_file::importScene(image, materials, transformations, lights, objects);
+    import_file::importScene(image, materials, transformations, lights, objects, camera);
 
 	getchar(); //to press enter to leave
 

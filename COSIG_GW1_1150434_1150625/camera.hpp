@@ -15,6 +15,8 @@ public:
 
 	double field_of_view;
 
+	Camera();
+
 	Camera(Transformation transformation,
 		double distance,
 		double field_of_view);

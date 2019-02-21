@@ -1,5 +1,8 @@
-
 #include "camera.hpp"
+
+Camera::Camera()
+{
+}
 
 Camera::Camera(Transformation transformation, double distance, double field_of_view) :
 	transformation(transformation),
