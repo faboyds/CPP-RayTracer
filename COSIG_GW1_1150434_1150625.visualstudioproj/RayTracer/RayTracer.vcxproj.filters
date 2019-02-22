@@ -13,17 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\model">
-      <UniqueIdentifier>{4479dc42-8014-4b5d-a6df-754c9f94fa20}</UniqueIdentifier>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{25bffb4f-c4f3-4b8e-8142-1f7232b2e037}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\utils">
-      <UniqueIdentifier>{63b3e66f-e025-41bb-ba0b-ec56a32f13bb}</UniqueIdentifier>
+    <Filter Include="Source Files\model">
+      <UniqueIdentifier>{eb65b8bc-c692-433b-a858-17b3939d1b80}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\model">
-      <UniqueIdentifier>{63740276-503c-452a-adf6-9b1954560ab2}</UniqueIdentifier>
+      <UniqueIdentifier>{06d57e63-7ecf-4c8c-a448-e45c4c8a351b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\utils">
-      <UniqueIdentifier>{b25cbbab-0c5c-427d-aed7-ee3545102e5d}</UniqueIdentifier>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{721323b8-cde9-4ef9-940b-9bbe79fce85a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -35,84 +35,84 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\box.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\box.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\camera.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\camera.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\image.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\image.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\light.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\light.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\material.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\material.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\sceneObject.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\sceneObject.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\sphere.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\sphere.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\transformation.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\transformation.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\transformation_utils.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\transformation_utils.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\triangle.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\triangle.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\triangles.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\triangles.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\vertex.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\model\vertex.cpp">
       <Filter>Source Files\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\utils\import_file.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\utils\import_file.cpp">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\main.cpp">
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\box.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\model\box.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\camera.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\model\camera.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\image.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\model\image.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\light.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\model\light.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\material.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\model\material.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\sceneObject.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\model\sceneObject.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\sphere.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\model\sphere.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\transformation.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\model\transformation.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\triangle.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\model\triangle.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\triangles.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\model\triangles.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\vertex.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\model\vertex.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\utils\import_file.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\utils\import_file.hpp">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
   </ItemGroup>
