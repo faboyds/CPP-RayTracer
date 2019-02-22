@@ -30,6 +30,19 @@ std::vector<SceneObject> objects;
 int main(int argc, const char * argv[]) {
     import_file::importScene(image, materials, transformations, lights, objects, camera);
 
+    std::cout << "P3\n" << image.width << " " << image.height << "\n255\n";
+    for (int j = image.height-1; j >= 0; j--) {
+        for (int i = 0; i < image.width; i++) {
+            float r = float(i) / float(image.width);
+            float g = float(j) / float(image.height);
+            float b = 0.2;
+            int ir = int(255.99*r);
+            int ig = int(255.99*g);
+            int ib = int(255.99*b);
+            std::cout << ir << " " << ig << " " << ib << "\n";
+        }
+    }
+    
 	getchar(); //to press enter to leave
 
     return 0;
