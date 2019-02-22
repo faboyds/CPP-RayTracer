@@ -115,38 +115,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\box.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\camera.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\image.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\import_file.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\light.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\main.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\material.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\sceneObject.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\sphere.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\transformation.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\transformation_utils.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\triangle.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\triangles.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\vertex.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\box.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\camera.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\image.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\import_file.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\light.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\material.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\sceneObject.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\sphere.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\transformation.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\triangle.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\triangles.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\vertex.hpp" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="..\..\COSIG_GW1_1150434_1150625\resources\evaluation_scene.txt" />
     <Text Include="..\..\COSIG_GW1_1150434_1150625\resources\test_scene.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\main.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\box.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\camera.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\image.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\light.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\material.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\sceneObject.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\sphere.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\transformation.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\transformation_utils.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\triangle.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\triangles.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\model\vertex.cpp" />
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\src\utils\import_file.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\box.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\camera.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\image.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\light.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\material.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\sceneObject.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\sphere.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\transformation.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\triangle.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\triangles.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\model\vertex.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\src\utils\import_file.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
