@@ -6,19 +6,19 @@
 //  Copyright © 2019 Fábio Lourenço. All rights reserved.
 //
 
-#include "utils/import_file.hpp"
+#include "import_file.hpp"
 #include <stdio.h>
 
-#include "model/material.hpp"
-#include "model/transformation.hpp"
-#include "model/camera.hpp"
-#include "model/image.hpp"
-#include "model/light.hpp"
-#include "model/box.hpp"
-#include "model/sphere.hpp"
-#include "model/triangles.hpp"
-#include "model/vertex.hpp"
-#include "model/sceneObject.hpp"
+#include "material.hpp"
+#include "transformation.hpp"
+#include "camera.hpp"
+#include "image.hpp"
+#include "light.hpp"
+#include "box.hpp"
+#include "sphere.hpp"
+#include "triangles.hpp"
+#include "vertex.hpp"
+#include "sceneObject.hpp"
 
 Image image;
 Camera camera;
