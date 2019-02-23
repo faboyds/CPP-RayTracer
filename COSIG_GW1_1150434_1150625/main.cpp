@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>  
 
+#include "vec3.hpp"
 #include "import_file.hpp"
 #include "material.hpp"
 #include "transformation.hpp"
@@ -35,12 +36,11 @@ void export_image() {
 	outfile << "P3\n" << image.width << " " << image.height << "\n255\n";
 	for (int j = image.height - 1; j >= 0; j--) {
 		for (int i = 0; i < image.width; i++) {
-			float r = float(i) / float(image.width);
-			float g = float(j) / float(image.height);
-			float b = 0.2;
-			int ir = int(255.99*r);
-			int ig = int(255.99*g);
-			int ib = int(255.99*b);
+			vec3 col(float(i) / float(image.width), float(j) / float(image.height), 0.2);
+
+			int ir = int(255.99*col[0]);
+			int ig = int(255.99*col[1]);
+			int ib = int(255.99*col[2]);
 			outfile << ir << " " << ig << " " << ib << std::endl;
 		}
 	}

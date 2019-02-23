@@ -130,6 +130,7 @@
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\transformation.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\triangle.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\triangles.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\vec3.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\vertex.hpp" />
   </ItemGroup>
   <ItemGroup>
