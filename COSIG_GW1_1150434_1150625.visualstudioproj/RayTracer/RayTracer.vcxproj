@@ -125,6 +125,7 @@
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\import_file.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\light.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\material.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\ray.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\sceneObject.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\sphere.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\transformation.hpp" />

@@ -74,6 +74,9 @@
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\vec3.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\ray.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\box.cpp">

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>  
 
+#include "ray.hpp"
 #include "vec3.hpp"
 #include "import_file.hpp"
 #include "material.hpp"
@@ -30,14 +31,33 @@ std::vector<Transformation> transformations;
 std::vector<Light> lights;
 std::vector<SceneObject> objects;
 
+/*
+For now, it returns the background color
+*/
+vec3 color(const ray& r) {
+	return vec3(image.red, image.green, image.blue);
+}
+
 void export_image() {
 	std::ofstream outfile("result.ppm");
 
 	outfile << "P3\n" << image.width << " " << image.height << "\n255\n";
+	vec3 lower_left_corner(-(image.width/100), -(image.height/100), -1.0); //
+	vec3 horizontal((image.width/100)*2, 0.0, 0.0);
+	vec3 vertical(0.0, (image.height/100)*2, 0.0);
+	vec3 origin(0.0, 0.0, 0.0);
+
 	for (int j = image.height - 1; j >= 0; j--) {
 		for (int i = 0; i < image.width; i++) {
-			vec3 col(float(i) / float(image.width), float(j) / float(image.height), 0.2);
+			//u and v are coordinates of the pixel in the image, (u,v).
+			float u = float(i) / float(image.width);
+			float v = float(j) / float(image.height);
 
+			//ray is p(t) = A + t*B, A being the origin and B being the direction
+			ray r(origin, lower_left_corner + u * horizontal + v * vertical);
+
+			//for now, there is nothing in the scene so the ray returns the background color
+			vec3 col = color(r);
 			int ir = int(255.99*col[0]);
 			int ig = int(255.99*col[1]);
 			int ib = int(255.99*col[2]);
