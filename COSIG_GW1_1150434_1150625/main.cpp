@@ -31,30 +31,17 @@ std::vector<Transformation> transformations;
 std::vector<Light> lights;
 std::vector<SceneObject> objects;
 
-/*
-Method that returns if the ray intersects the sphere. The discriminant can return either one, two or zero values. If it's one, it scraps the sphere. If two, it intersects the sphere in two points.
-The method follows the sphere equation [(x-cx)*(x-cx) + (y-cy)*(y-cy) + (z-cz)*(z-cz)= R*R].
-Adding the vector formula and expanding the equation to the left, we have the following quadration equation -> t*t*dot(B, B) + 2*t*dot(B,A-C) + dot(A-C,A-C) - R*R = 0.
-Note that A and B and C refer to the origin of the vector, the direction of the vector and the center of the sphere, respectively.
-*/
-bool hit_sphere(const vec3& center, float radius, const ray& r) {
-	vec3 oc = r.origin() - center;
-	//parameters of the quadratic expression
-	float a = dot(r.direction(), r.direction());
-	float b = 2.0 * dot(oc, r.direction());
-	float c = dot(oc, oc) - radius * radius;
-	float discriminant = b * b - 4 * a*c; //discriminant from Bhaskara Formula
-	return (discriminant > 0);
-}
 
 /*
-For now, it returns the background color
+For now, it returns the background color and sphere
 */
 vec3 color(const ray& r) {
-	//sphere (change here for the file)
-	if (hit_sphere(vec3(0, 0, -1), 0.5, r)) {
-		return vec3(1, 0, 0);
+	for (std::vector<SceneObject>::iterator it = objects.begin(); it != objects.end(); ++it) {
+		if (it->hit_object(r)) {
+			return vec3(1, 0, 0); //return hardcoded red sphere
+		}
 	}
+
 	//background
 	return vec3(image.red, image.green, image.blue);
 }

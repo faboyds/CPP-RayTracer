@@ -7,10 +7,16 @@
 //
 
 #include "triangles.hpp"
+#include "ray.hpp"
 
 Triangles::Triangles(Transformation transformation,
                      std::vector<Triangle> triangles): SceneObject(transformation), triangles(triangles)
 {
+}
+
+//TODO missing implementation
+inline bool Triangles::hit_object(const ray& r) {
+	return false;
 }
 
 std::ostream& operator<<(std::ostream &strm, const Triangles &t) {

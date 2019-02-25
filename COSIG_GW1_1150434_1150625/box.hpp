@@ -15,6 +15,7 @@
 #include "transformation.hpp"
 #include "material.hpp"
 #include "sceneObject.hpp"
+#include "ray.hpp"
 
 class Box : public SceneObject{
     
@@ -24,6 +25,9 @@ public:
         Transformation transformation,
         Material material
         );
+
+	//TODO change accordingly when the object is hit (parameters)
+	bool hit_object(const ray&);
     
     friend std::ostream& operator<<(std::ostream&, const Box&);
 };

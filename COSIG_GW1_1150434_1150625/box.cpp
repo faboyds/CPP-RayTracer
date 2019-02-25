@@ -7,9 +7,15 @@
 //
 
 #include "box.hpp"
+#include "ray.hpp"
 
 Box::Box(Transformation transformation, Material material): SceneObject(transformation, material)
 {
+}
+
+//TODO missing implementation
+inline bool Box::hit_object(const ray& r) {
+	return false;
 }
 
 std::ostream& operator<<(std::ostream &strm, const Box &b) {

@@ -14,6 +14,7 @@
 
 #include "transformation.hpp"
 #include "material.hpp"
+#include "ray.hpp"
 
 class SceneObject {
     
@@ -31,6 +32,8 @@ public:
                 Transformation transformation,
                 Material material
                 );
+
+	virtual bool hit_object(const ray&);
     
     friend std::ostream& operator<<(std::ostream&, const SceneObject&);
 };
