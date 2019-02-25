@@ -23,6 +23,7 @@ public:
     Material material;
     
     SceneObject();
+	virtual ~SceneObject() { }
     
     SceneObject(
                 Transformation transformation
@@ -33,7 +34,7 @@ public:
                 Material material
                 );
 
-	virtual bool hit_object(const ray&);
+    virtual bool hit_object(const ray&) = 0;
     
     friend std::ostream& operator<<(std::ostream&, const SceneObject&);
 };

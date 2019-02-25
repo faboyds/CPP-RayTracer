@@ -12,7 +12,6 @@ public:
 	Transformation transformation;
 
 	double distance;
-
 	double field_of_view;
 
 	Camera();

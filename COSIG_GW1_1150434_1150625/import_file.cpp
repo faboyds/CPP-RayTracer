@@ -14,7 +14,7 @@
 /*
 Creates string stream from file. The file contains the information for the scene to be rendered in a specific format.
 */
-std::ifstream testSceneFile("D:/Documents/Documents/ISEP/COSIG/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
+std::ifstream testSceneFile("C:/Users/lucho/Documents/ISEP/ISEP/COSIG/RayTracer/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
 //std::ifstream testSceneFile("/Users/fabiolourenco/Projects/CPP-RayCasting/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
 
 /*
@@ -239,7 +239,7 @@ namespace import_file {
 
 		std::getline(testSceneFile, line); //read '}'
 	}
-	void get_sphere_information(std::vector<SceneObject> &objects, std::vector<Transformation> &transformations, std::vector<Material> &materials) {
+	void get_sphere_information(std::vector<SceneObject *> &objects, std::vector<Transformation> &transformations, std::vector<Material> &materials) {
 		std::getline(testSceneFile, line); //read '{'
 
 		std::string transformationIndex;
@@ -256,13 +256,13 @@ namespace import_file {
 		int materialIndexValue = std::stoi(materialIndex.c_str());
 
 		// create sphere
-		Sphere s(transformations.at(transformationIndexValue), materials.at(materialIndexValue));
-		std::cout << s << std::endl;
+		Sphere* s = new Sphere(transformations.at(transformationIndexValue), materials.at(materialIndexValue));
+		std::cout << &s << std::endl;
 		objects.push_back(s);
 
 		std::getline(testSceneFile, line); //read '}'
 	}
-	void get_box_information(std::vector<SceneObject> &objects, std::vector<Transformation> &transformations, std::vector<Material> &materials) {
+	void get_box_information(std::vector<SceneObject *> &objects, std::vector<Transformation> &transformations, std::vector<Material> &materials) {
 		std::getline(testSceneFile, line); //read '{'
 
 		std::string transformationIndex;
@@ -279,13 +279,13 @@ namespace import_file {
 		int materialIndexValue = std::stoi(materialIndex.c_str());
 
 		// create box
-		Box b(transformations.at(transformationIndexValue), materials.at(materialIndexValue));
-		std::cout << b << std::endl;
+		Box * b = new Box(transformations.at(transformationIndexValue), materials.at(materialIndexValue));
+		std::cout << &b << std::endl;
 		objects.push_back(b);
 
 		std::getline(testSceneFile, line); //read '}'
 	}
-	void get_triangles_information(std::vector<SceneObject> &objects, std::vector<Transformation> &transformations, std::vector<Material> &materials) {
+	void get_triangles_information(std::vector<SceneObject *> &objects, std::vector<Transformation> &transformations, std::vector<Material> &materials) {
 		std::getline(testSceneFile, line); //read '{'
 
 		std::string transformationIndex;
@@ -295,7 +295,7 @@ namespace import_file {
 		trim(transformationIndex);
 		int transformationIndexValue = std::stoi(transformationIndex.c_str());
 
-		Triangles trianglesObject(transformations.at(transformationIndexValue), std::vector<Triangle>());
+		Triangles* trianglesObject = new Triangles(transformations.at(transformationIndexValue), std::vector<Triangle>());
 
 		while (std::getline(testSceneFile, line) && line.find("}") == std::string::npos) {
 			//read material index ^
@@ -323,10 +323,10 @@ namespace import_file {
 			}
 
 			std::cout << triangle << std::endl;
-			trianglesObject.triangles.push_back(triangle);
+			trianglesObject->triangles.push_back(triangle);
 		}
 
-		std::cout << trianglesObject << std::endl;
+		std::cout << &trianglesObject << std::endl;
 		objects.push_back(trianglesObject);
 	}
 
@@ -334,8 +334,8 @@ namespace import_file {
 		std::vector<Material> &materials, 
 		std::vector<Transformation> &transformations,
 		std::vector<Light> &lights,
-		std::vector<SceneObject> &objects,
-		Camera camera
+		std::vector<SceneObject *> &objects,
+		Camera &camera
 	) {
 
 		while (std::getline(testSceneFile, line))

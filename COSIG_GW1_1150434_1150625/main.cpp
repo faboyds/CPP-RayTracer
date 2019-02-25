@@ -29,16 +29,16 @@ Camera camera;
 std::vector<Material> materials;
 std::vector<Transformation> transformations;
 std::vector<Light> lights;
-std::vector<SceneObject> objects;
+std::vector<SceneObject *> objects;
 
 
 /*
 For now, it returns the background color and sphere
 */
 vec3 color(const ray& r) {
-	for (std::vector<SceneObject>::iterator it = objects.begin(); it != objects.end(); ++it) {
-		if (it->hit_object(r)) {
-			return vec3(1, 0, 0); //return hardcoded red sphere
+	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); ++it) {
+		if ((*it)->hit_object(r)) {
+			return vec3(1, 0, 0); //return hardcoded red sphere (for now)
 		}
 	}
 

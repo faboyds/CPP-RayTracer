@@ -30,7 +30,7 @@ public:
            );
 
 	//TODO change accordingly when the object is hit (parameters)
-	bool hit_object(const ray&);
+	virtual bool hit_object(const ray&);
     
     friend std::ostream& operator<<(std::ostream&, const Triangles&);
 };
