@@ -14,8 +14,8 @@ Box::Box(Transformation transformation, Material material): SceneObject(transfor
 }
 
 //TODO missing implementation
-inline bool Box::hit_object(const ray& r) {
-	return false;
+inline float Box::hit_object(const ray& r) {
+	return 0;
 }
 
 std::ostream& operator<<(std::ostream &strm, const Box &b) {

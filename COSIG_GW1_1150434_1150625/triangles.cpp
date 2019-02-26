@@ -15,8 +15,8 @@ Triangles::Triangles(Transformation transformation,
 }
 
 //TODO missing implementation
-inline bool Triangles::hit_object(const ray& r) {
-	return false;
+inline float Triangles::hit_object(const ray& r) {
+	return 0;
 }
 
 std::ostream& operator<<(std::ostream &strm, const Triangles &t) {

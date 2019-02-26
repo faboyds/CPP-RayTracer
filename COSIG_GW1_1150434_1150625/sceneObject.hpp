@@ -34,7 +34,7 @@ public:
                 Material material
                 );
 
-    virtual bool hit_object(const ray&) = 0;
+    virtual float hit_object(const ray&) = 0;
     
     friend std::ostream& operator<<(std::ostream&, const SceneObject&);
 };

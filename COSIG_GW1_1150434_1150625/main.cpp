@@ -37,11 +37,15 @@ For now, it returns the background color and sphere
 */
 vec3 color(const ray& r) {
 	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); ++it) {
-		if ((*it)->hit_object(r)) {
-			return vec3(1, 0, 0); //return hardcoded red sphere (for now)
+        
+        float t = (*it)->hit_object(r);
+        
+		if (t > 0.0) {
+            vec3 N = unit_vector(r.point_at_parameter(t) - vec3(0, 0, -1));
+			return 0.5*vec3(N.x()+1, N.y()+1, N.z()+1); //​N​ is a unit length vector– so each component is between -1 and 1) is to map each component to the interval from 0 to 1, and then map x/y/z to r/g/b
 		}
 	}
-
+    
 	//background
 	return vec3(image.red, image.green, image.blue);
 }
@@ -53,8 +57,9 @@ void export_image() {
 	vec3 lower_left_corner(-(image.width/100), -(image.height/100), -1.0); //
 	vec3 horizontal((image.width/100)*2, 0.0, 0.0);
 	vec3 vertical(0.0, (image.height/100)*2, 0.0);
-	vec3 origin(0.0, 0.0, 0.0);
-
+	//vec3 origin(camera.transformation.x, camera.transformation.y, camera.transformation.z);
+    vec3 origin(0, 0, 0);
+    
 	for (int j = image.height - 1; j >= 0; j--) {
 		for (int i = 0; i < image.width; i++) {
 			//u and v are coordinates of the pixel in the image, (u,v).
