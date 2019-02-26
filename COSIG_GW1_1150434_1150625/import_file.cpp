@@ -280,7 +280,7 @@ namespace import_file {
 
 		// create box
 		Box * b = new Box(transformations.at(transformationIndexValue), materials.at(materialIndexValue));
-		std::cout << &b << std::endl;
+		std::cout << b << std::endl;
 		objects.push_back(b);
 
 		std::getline(testSceneFile, line); //read '}'
