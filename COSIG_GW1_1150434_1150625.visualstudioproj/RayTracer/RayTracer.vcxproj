@@ -121,6 +121,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\box.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\camera.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\hitable.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\image.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\import_file.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\light.hpp" />
