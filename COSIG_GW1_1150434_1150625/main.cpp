@@ -30,6 +30,7 @@ std::vector<Material> materials;
 std::vector<Transformation> transformations;
 std::vector<Light> lights;
 std::vector<SceneObject *> objects;
+std::string outputFile;
 
 
 /*
@@ -51,7 +52,8 @@ vec3 color(const ray& r) {
 }
 
 void export_image() {
-	std::ofstream outfile("result.ppm");
+    //std::ofstream outfile("result.ppm");
+    std::ofstream outfile(outputFile);
 
 	outfile << "P3\n" << image.width << " " << image.height << "\n255\n";
 	vec3 lower_left_corner(-(image.width/100), -(image.height/100), -1.0); //
@@ -82,6 +84,9 @@ void export_image() {
 }
 
 int main(int argc, const char * argv[]) {
+    
+    outputFile = argv[1];
+    
 	//imports file
     import_file::importScene(image, materials, transformations, lights, objects, camera);
 
@@ -89,7 +94,7 @@ int main(int argc, const char * argv[]) {
 	export_image();
 
 	//to press enter to leave
-	getchar(); 
+	//getchar(); 
 
     return 0;
 }
