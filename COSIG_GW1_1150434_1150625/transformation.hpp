@@ -26,7 +26,10 @@ public:
     double scaleX = 0;
     double scaleY = 0;
     double scaleZ = 0;
-    
+
+    double matrix[4][4];
+    double inverseMatrix[4][4];
+
     Transformation();
     
     Transformation(
@@ -41,6 +44,9 @@ public:
                    double scaleZ);
     
     friend std::ostream& operator<<(std::ostream&, const Transformation&);
+
+    void buildMatrix(double mOut [4][4]);
+    void buildInverseMatrix(double mIn[4][4], double mOut[4][4]);
 };
 
 #endif /* transformation_hpp */

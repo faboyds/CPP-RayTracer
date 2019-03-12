@@ -40,7 +40,9 @@ vec3 color(const ray& r) {
 	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); ++it) {
         
         float t = (*it)->hit_object(r);
-        
+
+		//TODO final transformation = camera transformation * object transformation
+
 		if (t > 0.0) {
             vec3 N = unit_vector(r.point_at_parameter(t) - vec3(0, 0, -1));
 			return 0.5*vec3(N.x()+1, N.y()+1, N.z()+1); //​N​ is a unit length vector– so each component is between -1 and 1) is to map each component to the interval from 0 to 1, and then map x/y/z to r/g/b
@@ -69,7 +71,7 @@ void export_image() {
 			float v = float(j) / float(image.height);
 
 			//ray is p(t) = A + t*B, A being the origin and B being the direction
-			ray r(origin, lower_left_corner + u * horizontal + v * vertical);
+			ray r(origin, unit_vector(lower_left_corner + u * horizontal + v * vertical));
 
 			//for now, the scene only has a red sphere
 			vec3 col = color(r);

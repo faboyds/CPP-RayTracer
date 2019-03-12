@@ -148,6 +148,8 @@ namespace import_file {
 			}
 		}
 
+		t.buildMatrix(t.matrix);
+		t.buildInverseMatrix(t.matrix, t.inverseMatrix);
 		std::cout << t << std::endl;
 		transformations.push_back(t);
 	}
