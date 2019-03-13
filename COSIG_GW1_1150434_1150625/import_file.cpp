@@ -376,7 +376,34 @@ namespace import_file {
 				get_triangles_information(objects, transformations, materials);
 			}
 		}
+
+		for (std::vector<Transformation>::iterator it = transformations.begin() ; it != transformations.end(); ++it) {
+
+			if(!tmutl::compareMatrices((*it).matrix, camera.transformation.matrix)) {
+
+				tmutl::identityMatrix();
+				tmutl::multiply3(camera.transformation.matrix);
+				tmutl::multiply3((*it).matrix);
+
+				for ( int i = 0; i < 4; i ++ ) {
+					for ( int j = 0; j < 4; j ++ ) {
+						(*it).matrix[i][j] = tmutl::transformMatrix[i][j];
+					}
+				}
+
+				tmutl::identityMatrix();
+				tmutl::multiply3(camera.transformation.inverseMatrix);
+				tmutl::multiply3((*it).inverseMatrix);
+
+				for ( int i = 0; i < 4; i ++ ) {
+					for ( int j = 0; j < 4; j ++ ) {
+						(*it).inverseMatrix[i][j] = tmutl::transformMatrix[i][j];
+					}
+				}
+			}
+		}
 	}
+
 
 }
 
