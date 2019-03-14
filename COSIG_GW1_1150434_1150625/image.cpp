@@ -12,7 +12,7 @@ Image::Image()
 {
 }
 
-Image::Image(double width, double height,
+Image::Image(int width, int height,
              double red, double green, double blue): width(width), height(height), red(red), green(green), blue(blue)
 {
 }

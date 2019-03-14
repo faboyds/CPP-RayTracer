@@ -15,8 +15,8 @@
 class Image {
     
 public:
-    double width = 0;
-    double height = 0;
+    int width = 0;
+    int height = 0;
     
     double red = 0;
     double green = 0;
@@ -25,8 +25,8 @@ public:
     Image();
     
     Image(
-          double width,
-          double height,
+          int width,
+          int height,
           double red,
           double green,
           double blue);
