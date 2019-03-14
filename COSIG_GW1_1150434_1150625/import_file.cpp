@@ -14,8 +14,8 @@
 /*
 Creates string stream from file. The file contains the information for the scene to be rendered in a specific format.
 */
-std::ifstream testSceneFile("C:/Users/lucho/Documents/ISEP/ISEP/COSIG/RayTracer/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
-//std::ifstream testSceneFile("/Users/fabiolourenco/Projects/CPP-RayCasting/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
+//std::ifstream testSceneFile("C:/Users/lucho/Documents/ISEP/ISEP/COSIG/RayTracer/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
+std::ifstream testSceneFile("/Users/fabiolourenco/Projects/CPP-RayCasting/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
 
 /*
 Often used to get lines such as 'Material' or '{'
@@ -377,6 +377,7 @@ namespace import_file {
 			}
 		}
 
+
 		for (std::vector<Transformation>::iterator it = transformations.begin() ; it != transformations.end(); ++it) {
 
 			if(!tmutl::compareMatrices((*it).matrix, camera.transformation.matrix)) {
@@ -385,23 +386,22 @@ namespace import_file {
 				tmutl::multiply3(camera.transformation.matrix);
 				tmutl::multiply3((*it).matrix);
 
-				for ( int i = 0; i < 4; i ++ ) {
-					for ( int j = 0; j < 4; j ++ ) {
-						(*it).matrix[i][j] = tmutl::transformMatrix[i][j];
-					}
-				}
+				memcpy((*it).matrix, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
 
+				(*it).buildInverseMatrix((*it).matrix, (*it).inverseMatrix);
+
+
+				/*
 				tmutl::identityMatrix();
 				tmutl::multiply3(camera.transformation.inverseMatrix);
 				tmutl::multiply3((*it).inverseMatrix);
 
-				for ( int i = 0; i < 4; i ++ ) {
-					for ( int j = 0; j < 4; j ++ ) {
-						(*it).inverseMatrix[i][j] = tmutl::transformMatrix[i][j];
-					}
-				}
+				memcpy((*it).inverseMatrix, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
+				 */
+
 			}
 		}
+
 	}
 
 

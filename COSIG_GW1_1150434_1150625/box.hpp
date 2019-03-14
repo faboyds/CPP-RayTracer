@@ -12,22 +12,20 @@
 #include <stdio.h>
 #include <iostream>
 
-#include "transformation.hpp"
 #include "material.hpp"
 #include "sceneObject.hpp"
-#include "ray.hpp"
 
 class Box : public SceneObject{
     
 public:
         
     Box(
-        Transformation transformation,
+        Transformation &transformation,
         Material material
         );
 
 	//TODO change accordingly when the object is hit (parameters)
-	virtual float hit_object(const ray&);
+	virtual bool hit_object(ray &ray, vec3 &result);
     
     friend std::ostream& operator<<(std::ostream&, const Box&);
 };

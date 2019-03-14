@@ -17,7 +17,7 @@
 class Light {
     
 public:
-    Transformation transformation;
+    Transformation &transformation;
 
     double red = 0;
     double green = 0;
@@ -26,7 +26,7 @@ public:
     Light();
     
     Light(
-          Transformation transformation,
+          Transformation &transformation,
           double red,
           double green,
           double blue);

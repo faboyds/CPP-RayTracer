@@ -13,10 +13,8 @@
 #include <iostream>
 #include <vector>
 
-#include "transformation.hpp"
 #include "triangle.hpp"
 #include "sceneObject.hpp"
-#include "ray.hpp"
 
 class Triangles : public SceneObject{
     
@@ -25,12 +23,12 @@ public:
     std::vector<Triangle> triangles;
     
     Triangles(
-              Transformation transformation,
+              Transformation &transformation,
               std::vector<Triangle> triangles
            );
 
 	//TODO change accordingly when the object is hit (parameters)
-	virtual float hit_object(const ray&);
+	virtual bool hit_object(ray &ray, vec3 &result);
     
     friend std::ostream& operator<<(std::ostream&, const Triangles&);
 };

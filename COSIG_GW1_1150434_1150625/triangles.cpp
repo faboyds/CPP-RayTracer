@@ -9,14 +9,14 @@
 #include "triangles.hpp"
 #include "ray.hpp"
 
-Triangles::Triangles(Transformation transformation,
+Triangles::Triangles(Transformation &transformation,
                      std::vector<Triangle> triangles): SceneObject(transformation), triangles(triangles)
 {
 }
 
 //TODO missing implementation
-inline float Triangles::hit_object(const ray& r) {
-	return 0;
+inline bool Triangles::hit_object(ray &r, vec3 &result) {
+    return false;
 }
 
 std::ostream& operator<<(std::ostream &strm, const Triangles &t) {

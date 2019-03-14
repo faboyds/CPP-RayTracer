@@ -14,6 +14,7 @@ public:
     inline double x() const { return e[0]; }
     inline double y() const { return e[1]; }
     inline double z() const { return e[2]; }
+    inline double w() const { return e[3]; }
     inline double r() const { return e[0]; }
     inline double g() const { return e[1]; }
     inline double b() const { return e[2]; }
@@ -35,7 +36,7 @@ public:
     inline void make_unit_vector();
     
     
-    double e[3];
+    double e[4];
 };
 
 

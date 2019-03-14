@@ -8,11 +8,7 @@
 
 #include "light.hpp"
 
-Light::Light()
-{
-}
-
-Light::Light(Transformation transformation, double red, double green, double blue): transformation(transformation), red(red), green(green), blue(blue)
+Light::Light(Transformation &transformation, double red, double green, double blue): transformation(transformation), red(red), green(green), blue(blue)
 {
 }
 

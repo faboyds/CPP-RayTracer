@@ -8,13 +8,13 @@
 
 #include "sceneObject.hpp"
 
-SceneObject::SceneObject(): transformation(), material()
+/*SceneObject::SceneObject(): transformation(), material()
+{
+}*/
+SceneObject::SceneObject(Transformation &transformation): transformation(transformation), material()
 {
 }
-SceneObject::SceneObject(Transformation transformation): transformation(transformation), material()
-{
-}
-SceneObject::SceneObject(Transformation transformation, Material material): transformation(transformation), material(material)
+SceneObject::SceneObject(Transformation &transformation, Material material): transformation(transformation), material(material)
 {
 }
 

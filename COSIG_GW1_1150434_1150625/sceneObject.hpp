@@ -19,22 +19,22 @@
 class SceneObject {
     
 public:
-    Transformation transformation;
+    Transformation &transformation;
     Material material;
     
     SceneObject();
 	virtual ~SceneObject() { }
     
     SceneObject(
-                Transformation transformation
+                Transformation &transformation
                 );
     
     SceneObject(
-                Transformation transformation,
+                Transformation &transformation,
                 Material material
                 );
 
-    virtual float hit_object(const ray&) = 0;
+    virtual bool hit_object(ray &, vec3 &) = 0;
     
     friend std::ostream& operator<<(std::ostream&, const SceneObject&);
 };

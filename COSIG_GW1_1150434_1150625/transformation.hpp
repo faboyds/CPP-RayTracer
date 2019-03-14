@@ -23,9 +23,9 @@ public:
     double rotationY = 0;
     double rotationZ = 0;
     
-    double scaleX = 0;
-    double scaleY = 0;
-    double scaleZ = 0;
+    double scaleX = 1;
+    double scaleY = 1;
+    double scaleZ = 1;
 
     double matrix[4][4];
     double inverseMatrix[4][4];

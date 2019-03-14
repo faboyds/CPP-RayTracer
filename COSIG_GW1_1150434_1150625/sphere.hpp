@@ -12,21 +12,19 @@
 #include <stdio.h>
 #include <iostream>
 
-#include "transformation.hpp"
 #include "material.hpp"
 #include "sceneObject.hpp"
-#include "ray.hpp"
 
 class Sphere : public SceneObject{
     
 public:
     
     Sphere(
-        Transformation transformation,
+        Transformation &transformation,
         Material material
         );
 
-	virtual float hit_object(const ray&);
+	virtual bool hit_object(ray &ray, vec3 &result);
     
     friend std::ostream& operator<<(std::ostream&, const Sphere&);
 };

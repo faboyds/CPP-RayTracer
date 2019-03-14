@@ -22,7 +22,6 @@
 #include "sphere.hpp"
 #include "triangles.hpp"
 #include "vertex.hpp"
-#include "sceneObject.hpp"
 
 Image image;
 Camera camera;
@@ -36,17 +35,19 @@ std::string outputFile;
 /*
 For now, it returns the background color and sphere
 */
-vec3 color(const ray& r) {
+vec3 color(ray& r) {
 	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); ++it) {
-        
-        float t = (*it)->hit_object(r);
+
+
+		vec3 color;
+        bool hit = (*it)->hit_object(r, color);
+
+		if(hit) {
+			return color;
+        }
 
 		//TODO final transformation = camera transformation * object transformation
 
-		if (t > 0.0) {
-            vec3 N = unit_vector(r.point_at_parameter(t) - vec3(0, 0, -1));
-			return 0.5*vec3(N.x()+1, N.y()+1, N.z()+1); //​N​ is a unit length vector– so each component is between -1 and 1) is to map each component to the interval from 0 to 1, and then map x/y/z to r/g/b
-		}
 	}
     
 	//background
@@ -58,20 +59,28 @@ void export_image() {
     std::ofstream outfile(outputFile);
 
 	outfile << "P3\n" << image.width << " " << image.height << "\n255\n";
-	vec3 lower_left_corner(-(image.width/100), -(image.height/100), -1.0); //
-	vec3 horizontal((image.width/100)*2, 0.0, 0.0);
-	vec3 vertical(0.0, (image.height/100)*2, 0.0);
+	vec3 lower_left_corner(-camera.field_of_view/2, -camera.field_of_view/2, -camera.distance);
+	vec3 horizontal(camera.field_of_view, 0.0, 0.0);
+	vec3 vertical(0.0, camera.field_of_view, 0.0);
 	//vec3 origin(camera.transformation.x, camera.transformation.y, camera.transformation.z);
-    vec3 origin(0, 0, 0);
+    vec3 origin(0.0, 0.0, 0.0);
     
 	for (int j = image.height - 1; j >= 0; j--) {
 		for (int i = 0; i < image.width; i++) {
 			//u and v are coordinates of the pixel in the image, (u,v).
-			float u = float(i) / float(image.width);
-			float v = float(j) / float(image.height);
+			double u = double(i) / image.width;
+			double v = double(j) / image.height;
 
 			//ray is p(t) = A + t*B, A being the origin and B being the direction
 			ray r(origin, unit_vector(lower_left_corner + u * horizontal + v * vertical));
+
+			//r.transform(camera.transformation.matrix);
+
+			if(j < 10 && i < 10) {
+				std::cout << r.B.x() << "   " << r.B.y() << "   " << r.B.z() << "\n";
+			}
+
+
 
 			//for now, the scene only has a red sphere
 			vec3 col = color(r);
@@ -81,6 +90,7 @@ void export_image() {
 			outfile << ir << " " << ig << " " << ib << std::endl;
 		}
 	}
+
 	outfile.close();
 	std::cout << "Finished exporting" << "\n";
 }
