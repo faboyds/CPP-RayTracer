@@ -59,7 +59,7 @@ void export_image() {
     std::ofstream outfile(outputFile);
 
 	outfile << "P3\n" << image.width << " " << image.height << "\n255\n";
-	vec3 lower_left_corner(-camera.field_of_view/2, -camera.field_of_view/2, -camera.distance);
+	vec3 lower_left_corner(-camera.field_of_view/2, -camera.field_of_view/2, camera.distance);
 	vec3 horizontal(camera.field_of_view, 0.0, 0.0);
 	vec3 vertical(0.0, camera.field_of_view, 0.0);
 	//vec3 origin(camera.transformation.x, camera.transformation.y, camera.transformation.z);
