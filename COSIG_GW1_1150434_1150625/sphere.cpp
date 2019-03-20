@@ -27,8 +27,6 @@ Note that A and B and C refer to the origin of the vector, the direction of the 
 */
 inline bool Sphere::hit_object(ray &r, vec3 &result) {
 
-    r.transform(transformation.inverseMatrix);
-
     //unit sphere in origin
 	vec3 center = vec3(0, 0, 0);
     double radius = 1;
@@ -42,7 +40,6 @@ inline bool Sphere::hit_object(ray &r, vec3 &result) {
 
     if(discriminant < 0) {
 
-        r.transform(transformation.matrix);
         return false;
 
     } else {
@@ -54,12 +51,10 @@ inline bool Sphere::hit_object(ray &r, vec3 &result) {
             vec3 point = unit_vector(r.point_at_parameter(t) - vec3(0, 0, -1));
             result = vec3(material.red, material.green, material.blue);
 
-            r.transform(transformation.matrix);
             return true;
         }
     }
 
-    r.transform(transformation.matrix);
     return false;
 }
 

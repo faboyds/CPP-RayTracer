@@ -38,9 +38,13 @@ For now, it returns the background color and sphere
 vec3 color(ray& r) {
 	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); ++it) {
 
-
 		vec3 color;
+
+		r.transform((*it)->transformation.inverseMatrix);
+
         bool hit = (*it)->hit_object(r, color);
+
+		r.transform((*it)->transformation.matrix);
 
 		if(hit) {
 			return color;
@@ -59,7 +63,7 @@ void export_image() {
     std::ofstream outfile(outputFile);
 
 	outfile << "P3\n" << image.width << " " << image.height << "\n255\n";
-	vec3 lower_left_corner(-camera.field_of_view/2, -camera.field_of_view/2, camera.distance);
+	vec3 lower_left_corner(-camera.field_of_view/2, -camera.field_of_view/2, -camera.distance);
 	vec3 horizontal(camera.field_of_view, 0.0, 0.0);
 	vec3 vertical(0.0, camera.field_of_view, 0.0);
 	//vec3 origin(camera.transformation.x, camera.transformation.y, camera.transformation.z);
@@ -72,14 +76,11 @@ void export_image() {
 			double v = double(j) / image.height;
 
 			//ray is p(t) = A + t*B, A being the origin and B being the direction
-			ray r(origin, unit_vector(lower_left_corner + u * horizontal + v * vertical));
-
-			//r.transform(camera.transformation.matrix);
+			ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
 
 			if(j < 10 && i < 10) {
 				std::cout << r.B.x() << "   " << r.B.y() << "   " << r.B.z() << "\n";
 			}
-
 
 
 			//for now, the scene only has a red sphere
