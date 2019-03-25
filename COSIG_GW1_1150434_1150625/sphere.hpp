@@ -24,7 +24,7 @@ public:
         Material material
         );
 
-	virtual bool hit_object(ray &ray, vec3 &result);
+	virtual double hit_object(ray &ray, vec3 &result);
     
     friend std::ostream& operator<<(std::ostream&, const Sphere&);
 };

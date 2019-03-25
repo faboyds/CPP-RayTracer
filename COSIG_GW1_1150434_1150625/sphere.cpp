@@ -25,7 +25,7 @@ The method follows the sphere equation [(x-cx)*(x-cx) + (y-cy)*(y-cy) + (z-cz)*(
 Adding the vector formula and expanding the equation to the left, we have the following quadration equation -> t*t*dot(B, B) + 2*t*dot(B,A-C) + dot(A-C,A-C) - R*R = 0.
 Note that A and B and C refer to the origin of the vector, the direction of the vector and the center of the sphere, respectively.
 */
-inline bool Sphere::hit_object(ray &r, vec3 &result) {
+inline double Sphere::hit_object(ray &r, vec3 &result) {
 
     //unit sphere in origin
 	vec3 center = vec3(0, 0, 0);
@@ -40,7 +40,7 @@ inline bool Sphere::hit_object(ray &r, vec3 &result) {
 
     if(discriminant < 0) {
 
-        return false;
+        return -1;
 
     } else {
 
@@ -51,11 +51,11 @@ inline bool Sphere::hit_object(ray &r, vec3 &result) {
             vec3 point = unit_vector(r.point_at_parameter(t) - vec3(0, 0, -1));
             result = vec3(material.red, material.green, material.blue);
 
-            return true;
+            return t;
         }
     }
 
-    return false;
+    return -1;
 }
 
 std::ostream& operator<<(std::ostream &strm, const Sphere &s) {
