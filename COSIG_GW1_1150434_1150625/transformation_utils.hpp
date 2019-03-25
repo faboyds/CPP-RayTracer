@@ -375,6 +375,38 @@ namespace tmutl {
         std::cout << "\n";
     }
 
+    // n is the current size of the matrix. for calling this function, use the dimension of the matrix
+    static double determinant(double matrix[10][10], int n) {
+        double det = 0;
+        double submatrix [10][10];
+
+        if (n == 2)
+            return ((matrix[0][0] * matrix[1][1]) - (matrix[1][0] * matrix[0][1]));
+        else {
+            for (int x = 0; x < n; x++) {
+                int subi = 0;
+                for (int i = 1; i < n; i++) {
+                    int subj = 0;
+                    for (int j = 0; j < n; j++) {
+                        if (j == x)
+                            continue;
+                        submatrix[subi][subj] = matrix[i][j];
+                        subj++;
+                    }
+                    subi++;
+
+                }
+                det = det + (pow(-1, x) * matrix[0][x] * determinant( submatrix, n - 1 ));
+            }
+        }
+        return det;
+    }
+
+    static double determinant2(double matrix[3][3]) {
+        return matrix[0][0]*matrix[1][1]*matrix[2][2] + matrix[0][1]*matrix[1][2]*matrix[2][0] + matrix[0][2]*matrix[1][0]*matrix[2][1]
+        - matrix[0][2]*matrix[1][1]*matrix[2][0] - matrix[0][1]*matrix[1][0]*matrix[2][2] - matrix[0][0]*matrix[1][2]*matrix[2][1];
+    }
+
     /*
     void main(void)
     {
