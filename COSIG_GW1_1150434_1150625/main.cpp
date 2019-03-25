@@ -8,7 +8,8 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <fstream>  
+#include <fstream>
+#include <math.h>
 
 #include "ray.hpp"
 #include "vec3.hpp"
@@ -23,6 +24,8 @@
 #include "triangles.hpp"
 #include "vertex.hpp"
 
+#define PI 3.14159265
+
 Image image;
 Camera camera;
 std::vector<Material> materials;
@@ -36,26 +39,31 @@ std::string outputFile;
 For now, it returns the background color and sphere
 */
 vec3 color(ray& r) {
-	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); ++it) {
 
-		vec3 color;
+	double lowestT = 99999;
+	vec3 color = vec3(image.red, image.green, image.blue);
 
-		r.transform((*it)->transformation.inverseMatrix);
+	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); it++) {
 
-        bool hit = (*it)->hit_object(r, color);
+		vec3 tempColor;
+		ray tempRay = r;
 
-		r.transform((*it)->transformation.matrix);
+		tempRay.transform((*it)->transformation.inverseMatrix);
 
-		if(hit) {
-			return color;
+        double t = (*it)->hit_object(tempRay, tempColor);
+
+		tempRay.transform((*it)->transformation.matrix);
+
+		if(t > 0 && t < lowestT) {
+			lowestT = t;
+			color.e[0] = tempColor.e[0];
+			color.e[1] = tempColor.e[1];
+			color.e[2] = tempColor.e[2];
         }
-
-		//TODO final transformation = camera transformation * object transformation
-
 	}
-    
+
 	//background
-	return vec3(image.red, image.green, image.blue);
+	return color;
 }
 
 void export_image() {
@@ -63,17 +71,22 @@ void export_image() {
     std::ofstream outfile(outputFile);
 
 	outfile << "P3\n" << image.width << " " << image.height << "\n255\n";
-	vec3 lower_left_corner(-camera.field_of_view/2, -camera.field_of_view/2, -camera.distance);
-	vec3 horizontal(camera.field_of_view, 0.0, 0.0);
-	vec3 vertical(0.0, camera.field_of_view, 0.0);
-	//vec3 origin(camera.transformation.x, camera.transformation.y, camera.transformation.z);
-    vec3 origin(0.0, 0.0, 0.0);
-    
+
+	double height = 2 * (camera.distance * tan((camera.field_of_view/2) * (PI/180)));
+	double width = height*image.width/image.height;
+
+	std::cout << height << "   " << width << "\n\n";
+
+	vec3 lower_left_corner(-width/2, -height/2, -camera.distance);
+	vec3 horizontal(width, 0.0, 0.0);
+	vec3 vertical(0.0, height, 0.0);
+    vec3 origin(0.0, 0.0, camera.distance);
+
 	for (int j = image.height - 1; j >= 0; j--) {
 		for (int i = 0; i < image.width; i++) {
 			//u and v are coordinates of the pixel in the image, (u,v).
-			double u = double(i) / image.width;
-			double v = double(j) / image.height;
+			double u = double(i+0.5) / image.width;
+			double v = double(j+0.5) / image.height;
 
 			//ray is p(t) = A + t*B, A being the origin and B being the direction
 			ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
@@ -85,9 +98,9 @@ void export_image() {
 
 			//for now, the scene only has a red sphere
 			vec3 col = color(r);
-			int ir = int(255.99*col[0]);
-			int ig = int(255.99*col[1]);
-			int ib = int(255.99*col[2]);
+			int ir = int(255*col[0]);
+			int ig = int(255*col[1]);
+			int ib = int(255*col[2]);
 			outfile << ir << " " << ig << " " << ib << std::endl;
 		}
 	}
