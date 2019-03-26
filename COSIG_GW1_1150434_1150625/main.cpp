@@ -64,13 +64,47 @@ vec3 color(ray& r) {
 		if(t > 0 && t < lowestT) {
 			lowestT = t;
 
-			// calculate color with lights
-			for (std::vector<Light>::iterator it2 = lights.begin(); it2 != lights.end(); ++it2) {
+			//initialize tempColor
+			tempColor = vec3(0, 0, 0);
 
-				tempColor.e[0] *= (*it2).red * (*it)->material.ambient;
-				tempColor.e[1] *= (*it2).green * (*it)->material.ambient;
-				tempColor.e[2] *= (*it2).blue * (*it)->material.ambient;
+			vec3 materialColor = vec3((*it)->material.red, (*it)->material.green, (*it)->material.blue);
+
+			// AMBIENT CONTRIBUTION
+			for (std::vector<Light>::iterator lightIterator = lights.begin(); lightIterator != lights.end(); ++lightIterator) {
+
+				vec3 lightColor = vec3((*lightIterator).red, (*lightIterator).green, (*lightIterator).blue);
+
+				tempColor += lightColor * materialColor * (*it)->material.ambient;
 			}
+
+
+			vec3 point = r.point_at_parameter(t);
+
+			// DIFFUSE CONTRIBUTION
+			for (std::vector<Light>::iterator lightIterator = lights.begin(); lightIterator != lights.end(); ++lightIterator) {
+
+				//TODO check if object is in the shadow
+
+				/**
+				 * new ray (point , L)
+				 * for each obj
+				 * 	if ray intersect obj ( L nao normalizado)
+				 * 		if t > E && t < comprimento L
+				 * 			return true
+		 		 * false
+				 */
+
+				vec3 lightColor = vec3((*lightIterator).red, (*lightIterator).green, (*lightIterator).blue);
+				vec3 lightCenter = vec3((*lightIterator).transformation.x, (*lightIterator).transformation.y, (*lightIterator).transformation.z);
+				vec3 vectorFromPointToLight = unit_vector(lightCenter - point);
+
+				tempColor += lightColor * materialColor * (*it)->material.diffuse * (dot(vectorFromPointToLight, normal));
+			}
+
+			//specular component
+			//vec3 vectorFromPointToEye = -r.direction();
+			//vec3 H = unit_vector((vectorFromPointToEye + vectorFromPointToLight) / 2);
+			//double specularComponent = (*it)->material.reflection * pow(dot(H, normal), 50); // specularity coefficient ?? =50 for now
 
 			// updates color with new values
 			color.e[0] = tempColor.e[0];
