@@ -48,20 +48,35 @@ vec3 color(ray& r) {
 		vec3 tempColor;
 		ray tempRay = r;
 
+		// transforms ray to object referential
 		tempRay.transform((*it)->transformation.inverseMatrix);
 
 		vec3 normal = vec3(0, 0, 0);
 
+		// tries to hit object
         double t = (*it)->hit_object(tempRay, tempColor, normal);
 
+		// transforms ray back to world referential
 		tempRay.transform((*it)->transformation.matrix);
 
+		// checks if t is the nearest t
+		//TODO take lights component calculations outside scene objects iteration. only compute light for nearest object
 		if(t > 0 && t < lowestT) {
 			lowestT = t;
+
+			// calculate color with lights
+			for (std::vector<Light>::iterator it2 = lights.begin(); it2 != lights.end(); ++it2) {
+
+				tempColor.e[0] *= (*it2).red * (*it)->material.ambient;
+				tempColor.e[1] *= (*it2).green * (*it)->material.ambient;
+				tempColor.e[2] *= (*it2).blue * (*it)->material.ambient;
+			}
+
+			// updates color with new values
 			color.e[0] = tempColor.e[0];
 			color.e[1] = tempColor.e[1];
 			color.e[2] = tempColor.e[2];
-        }
+		}
 	}
 
 	//background

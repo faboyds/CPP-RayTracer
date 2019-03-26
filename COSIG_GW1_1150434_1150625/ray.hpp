@@ -49,7 +49,7 @@ class ray
 			B.e[0] = tmutl::transformMatrix[0][0];
 			B.e[1] = tmutl::transformMatrix[1][0];
 			B.e[2] = tmutl::transformMatrix[2][0];
-			B = unit_vector(B);
+			B.make_unit_vector();
 
 
 			//std::cout << "  " << tmutl::transformMatrix[0][0] << "   " << tmutl::transformMatrix[0][1] << "   " << tmutl::transformMatrix[0][2] << "\n";
