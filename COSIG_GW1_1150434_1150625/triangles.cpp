@@ -16,6 +16,7 @@ Triangles::Triangles(Transformation &transformation,
 
 inline double Triangles::hit_object(ray &r, vec3 &result) {
 
+    double lowestT = 99999;
 
     for (std::vector<Triangle>::iterator it = triangles.begin() ; it != triangles.end(); ++it) {
         //barycentric
@@ -98,8 +99,9 @@ inline double Triangles::hit_object(ray &r, vec3 &result) {
         vec3 point = unit_vector(r.point_at_parameter(t) - vec3(0, 0, -1));
         result = vec3((*it).material.red, (*it).material.green, (*it).material.blue);
 
-        return t;
-
+        if(t > 0 && t < lowestT) {
+            lowestT = t;
+        }
 
         /*
         //compute plane's normal
@@ -180,8 +182,9 @@ inline double Triangles::hit_object(ray &r, vec3 &result) {
 
     }
 
-    return -1;
+    if(lowestT == 99999) return -1;
 
+    return lowestT;
 }
 
 std::ostream& operator<<(std::ostream &strm, const Triangles &t) {
