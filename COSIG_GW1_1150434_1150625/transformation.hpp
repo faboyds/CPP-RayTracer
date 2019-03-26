@@ -29,6 +29,7 @@ public:
 
     double matrix[4][4];
     double inverseMatrix[4][4];
+	double transposedInvertMatrix[4][4];
 
     Transformation();
     
@@ -47,6 +48,7 @@ public:
 
     void buildMatrix(double mOut [4][4]);
     void buildInverseMatrix(double mIn[4][4], double mOut[4][4]);
+	void buildTransposedInversedMatrix(double mIn[4][4], double mOut[4][4]);
 };
 
 #endif /* transformation_hpp */

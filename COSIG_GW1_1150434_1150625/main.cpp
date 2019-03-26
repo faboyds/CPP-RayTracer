@@ -34,6 +34,28 @@ std::vector<Light> lights;
 std::vector<SceneObject *> objects;
 std::string outputFile;
 
+vec3 calculate_normal(vec3 unit_normal, double transposed_inverted_matrix[4][4]) {
+	tmutl::identityMatrix();
+	tmutl::multiply3(transposed_inverted_matrix);
+
+	double auxMatrix[4][1];
+
+	//convert origin point into matrix to multiply with transformation's matrix
+	auxMatrix[0][0] = unit_normal.x();
+	auxMatrix[1][0] = unit_normal.y();
+	auxMatrix[2][0] = unit_normal.z();
+	auxMatrix[3][0] = unit_normal.w();
+	tmutl::multiply4x4b4x1(auxMatrix);
+
+	vec3 normal;
+
+	normal.e[0] = tmutl::transformMatrix[0][0];
+	normal.e[1] = tmutl::transformMatrix[1][0];
+	normal.e[2] = tmutl::transformMatrix[2][0];
+
+	return normal;
+}
+
 
 /*
 For now, it returns the background color and sphere
@@ -51,18 +73,19 @@ vec3 color(ray& r) {
 		// transforms ray to object referential
 		tempRay.transform((*it)->transformation.inverseMatrix);
 
-		vec3 normal = vec3(0, 0, 0);
-
 		// tries to hit object
-        double t = (*it)->hit_object(tempRay, tempColor, normal);
+		vec3 unit_normal = vec3(0, 0, 0);
+        double t = (*it)->hit_object(tempRay, tempColor, unit_normal);
 
 		// transforms ray back to world referential
 		tempRay.transform((*it)->transformation.matrix);
-
+		
 		// checks if t is the nearest t
 		//TODO take lights component calculations outside scene objects iteration. only compute light for nearest object
 		if(t > 0 && t < lowestT) {
 			lowestT = t;
+
+			vec3 normal = calculate_normal(unit_normal, (*it)->transformation.transposedInvertMatrix);
 
 			// calculate color with lights
 			for (std::vector<Light>::iterator it2 = lights.begin(); it2 != lights.end(); ++it2) {

@@ -401,6 +401,7 @@ namespace import_file {
 				memcpy((*it).matrix, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
 
 				(*it).buildInverseMatrix((*it).matrix, (*it).inverseMatrix);
+				(*it).buildTransposedInversedMatrix((*it).inverseMatrix, (*it).transposedInvertMatrix);
 
 
 				/*

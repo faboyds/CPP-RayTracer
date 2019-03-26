@@ -70,3 +70,22 @@ void Transformation::buildInverseMatrix(double mIn[4][4], double mOut[4][4]) {
     memcpy(mIn, tempMIn, sizeof(tempMIn));
     memcpy(mOut, tempMOut, sizeof(tempMOut));
 }
+
+void Transformation::buildTransposedInversedMatrix(double mIn[4][4], double mOut[4][4]) {
+
+	double tempMatrix[4][4];
+
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			tempMatrix[j][i] = mIn[i][j];
+		}
+	}
+
+	
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			mOut[i][j] = tempMatrix[i][j];
+		}
+	}
+
+}
