@@ -43,7 +43,7 @@ vec3 color(ray& r) {
 	double lowestT = 99999;
 	vec3 color = vec3(image.red, image.green, image.blue);
 
-	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); it++) {
+	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); ++it) {
 
 		vec3 tempColor;
 		ray tempRay = r;
