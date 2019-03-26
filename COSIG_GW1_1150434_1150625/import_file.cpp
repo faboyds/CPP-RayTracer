@@ -14,8 +14,8 @@
 /*
 Creates string stream from file. The file contains the information for the scene to be rendered in a specific format.
 */
-//std::ifstream testSceneFile("C:/Users/lucho/Documents/ISEP/ISEP/COSIG/RayTracer/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
-std::ifstream testSceneFile("/Users/fabiolourenco/Projects/CPP-RayCasting/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
+std::ifstream testSceneFile("C:/Users/lucho/Documents/ISEP/ISEP/COSIG/RayTracer/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
+//std::ifstream testSceneFile("/Users/fabiolourenco/Projects/CPP-RayCasting/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
 
 /*
 Often used to get lines such as 'Material' or '{'
@@ -377,7 +377,7 @@ namespace import_file {
 			}
 		}
 
-
+		// Tobj_final = Tcam x Tobj i
 		for (std::vector<Transformation>::iterator it = transformations.begin() ; it != transformations.end(); ++it) {
 
 			if(!tmutl::compareMatrices((*it).matrix, camera.transformation.matrix)) {

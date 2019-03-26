@@ -25,7 +25,7 @@ public:
         );
 
 	//TODO change accordingly when the object is hit (parameters)
-	virtual double hit_object(ray &ray, vec3 &result);
+	virtual double hit_object(ray &ray, vec3 &result, vec3 &normal);
     
     friend std::ostream& operator<<(std::ostream&, const Box&);
 };

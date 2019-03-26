@@ -14,7 +14,7 @@ Triangles::Triangles(Transformation &transformation,
 {
 }
 
-inline double Triangles::hit_object(ray &r, vec3 &result) {
+inline double Triangles::hit_object(ray &r, vec3 &result, vec3 &normal) {
 
     double lowestT = 99999;
 

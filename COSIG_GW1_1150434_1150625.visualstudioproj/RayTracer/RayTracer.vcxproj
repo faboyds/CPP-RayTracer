@@ -121,7 +121,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\box.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\camera.hpp" />
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\hitable.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\image.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\import_file.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\light.hpp" />
@@ -130,6 +129,7 @@
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\sceneObject.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\sphere.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\transformation.hpp" />
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\transformation_utils.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\triangle.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\triangles.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\vec3.hpp" />
@@ -146,7 +146,6 @@
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\sceneObject.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\sphere.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\transformation.cpp" />
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\transformation_utils.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\triangle.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\triangles.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\vertex.cpp" />

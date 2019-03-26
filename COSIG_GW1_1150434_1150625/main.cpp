@@ -50,7 +50,9 @@ vec3 color(ray& r) {
 
 		tempRay.transform((*it)->transformation.inverseMatrix);
 
-        double t = (*it)->hit_object(tempRay, tempColor);
+		vec3 normal = vec3(0, 0, 0);
+
+        double t = (*it)->hit_object(tempRay, tempColor, normal);
 
 		tempRay.transform((*it)->transformation.matrix);
 
@@ -96,7 +98,6 @@ void export_image() {
 			}
 
 
-			//for now, the scene only has a red sphere
 			vec3 col = color(r);
 			int ir = int(255*col[0]);
 			int ig = int(255*col[1]);

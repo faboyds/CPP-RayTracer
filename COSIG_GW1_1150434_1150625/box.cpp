@@ -12,7 +12,7 @@ Box::Box(Transformation &transformation, Material material): SceneObject(transfo
 {
 }
 
-inline double Box::hit_object(ray &r, vec3 &result) {
+inline double Box::hit_object(ray &r, vec3 &result, vec3 &normal) {
 
     double maxCoord = 0.5;
 

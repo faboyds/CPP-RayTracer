@@ -77,7 +77,7 @@
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\ray.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\hitable.hpp">
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\transformation_utils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,9 +119,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\import_file.cpp">
-      <Filter>Source Files\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\transformation_utils.cpp">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
   </ItemGroup>
