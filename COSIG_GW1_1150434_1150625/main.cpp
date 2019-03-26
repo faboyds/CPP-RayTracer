@@ -62,7 +62,6 @@ vec3 color(ray& r) {
 
 	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); ++it) {
 
-		vec3 tempColor;
 		ray tempRay = r;
 
 		// transforms ray to object referential
@@ -70,7 +69,7 @@ vec3 color(ray& r) {
 
 		// tries to hit object
 		vec3 unit_normal = vec3(0, 0, 0);
-        double t = (*it)->hit_object(tempRay, tempColor, unit_normal);
+        double t = (*it)->hit_object(tempRay, unit_normal);
 
 		// transforms ray back to world referential
 		tempRay.transform((*it)->transformation.matrix);
@@ -84,7 +83,7 @@ vec3 color(ray& r) {
 			vec3 normal = calculate_normal(unit_normal, (*it)->transformation.transposedInvertMatrix);
 
 			//initialize tempColor
-			tempColor = vec3(0, 0, 0);
+			vec3 tempColor = vec3(0, 0, 0);
 
 			// calculate color with lights
 			vec3 materialColor = vec3((*it)->material.red, (*it)->material.green, (*it)->material.blue);

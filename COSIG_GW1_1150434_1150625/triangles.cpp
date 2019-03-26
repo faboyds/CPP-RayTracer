@@ -14,7 +14,7 @@ Triangles::Triangles(Transformation &transformation,
 {
 }
 
-inline double Triangles::hit_object(ray &r, vec3 &result, vec3 &normal) {
+inline double Triangles::hit_object(ray &r, vec3 &normal) {
 
     double lowestT = 99999;
 
@@ -98,7 +98,6 @@ inline double Triangles::hit_object(ray &r, vec3 &result, vec3 &normal) {
 
         vec3 point = unit_vector(r.point_at_parameter(t) - vec3(0, 0, -1));
         normal = (*it).normalVector;
-        result = vec3((*it).material.red, (*it).material.green, (*it).material.blue);
 
         if(t > 0 && t < lowestT) {
             lowestT = t;
