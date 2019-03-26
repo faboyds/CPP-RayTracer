@@ -46,8 +46,14 @@ inline double Sphere::hit_object(ray &r, vec3 &result, vec3 &normal) {
 
         double t = (-b - sqrt(discriminant)) / (2.0*a);
 
+
         if (t > 0.0) {
             //TODO Apply lights
+
+			//calculating the normal
+			normal = unit_vector(r.point_at_parameter(t) - center);
+			normal.e[3] = 0;
+
             vec3 point = unit_vector(r.point_at_parameter(t) - vec3(0, 0, -1));
             result = vec3(material.red, material.green, material.blue);
 
