@@ -23,6 +23,7 @@ public:
     
     Material material;
     std::vector<Vertex> vertices;
+    vec3 normalVector;
     
     Triangle(
               Material material,

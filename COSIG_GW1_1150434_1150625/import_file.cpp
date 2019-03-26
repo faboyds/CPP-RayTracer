@@ -324,6 +324,18 @@ namespace import_file {
 				triangle.vertices.push_back(v);
 			}
 
+			vec3 A = vec3(triangle.vertices[0].x, triangle.vertices[0].y, triangle.vertices[0].z);
+			vec3 B = vec3(triangle.vertices[1].x, triangle.vertices[1].y, triangle.vertices[1].z);
+			vec3 C = vec3(triangle.vertices[2].x, triangle.vertices[2].y, triangle.vertices[2].z);
+
+			// compute plane's normal
+			vec3 AB = B - A;
+			vec3 AC = C - A;
+			vec3 N = cross(AB, AC);
+			N.make_unit_vector();
+
+			triangle.normalVector = N;
+
 			std::cout << triangle << std::endl;
 			trianglesObject->triangles.push_back(triangle);
 		}
