@@ -29,7 +29,9 @@ public:
               Material material,
               std::vector<Vertex> vertices
               );
-    
+
+    void buildNormalVector();
+
     friend std::ostream& operator<<(std::ostream&, const Triangle&);
 };
 

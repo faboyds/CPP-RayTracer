@@ -55,6 +55,27 @@ vec3 calculate_normal(vec3 unit_normal, double transposed_inverted_matrix[4][4])
 	return normal;
 }
 
+vec3 calculate_point(vec3 pointAtObjectReferential, double transformationMatrix[4][4]) {
+	tmutl::identityMatrix();
+	tmutl::multiply3(transformationMatrix);
+
+	double auxMatrix[4][1];
+
+	auxMatrix[0][0] = pointAtObjectReferential.x();
+	auxMatrix[1][0] = pointAtObjectReferential.y();
+	auxMatrix[2][0] = pointAtObjectReferential.z();
+	auxMatrix[3][0] = 1;
+	tmutl::multiply4x4b4x1(auxMatrix);
+
+	vec3 point;
+
+	point.e[0] = tmutl::transformMatrix[0][0];
+	point.e[1] = tmutl::transformMatrix[1][0];
+	point.e[2] = tmutl::transformMatrix[2][0];
+
+	return point;
+}
+
 vec3 color(ray& r) {
 
 	double lowestT = 99999;
@@ -69,14 +90,33 @@ vec3 color(ray& r) {
 
 		// tries to hit object
 		vec3 unit_normal = vec3(0, 0, 0);
-        double t = (*it)->hit_object(tempRay, unit_normal);
+
+		double t;
+		Material material;
+
+		if(Triangles* triangles = dynamic_cast<Triangles*>(*it)) {
+			t = (*triangles).hit_object(tempRay, unit_normal, material); // in Triangles object, the material differs between the object triangles
+		} else {
+			material = (*it)->material;
+			t = (*it)->hit_object(tempRay, unit_normal);
+		}
+
+		if(t < 0) {
+			continue;
+		}
+
+		vec3 pointAtObjectReferential = tempRay.point_at_parameter(t);
+		vec3 point = calculate_point(pointAtObjectReferential, (*it)->transformation.matrix);
 
 		// transforms ray back to world referential
 		tempRay.transform((*it)->transformation.matrix);
-		
+
+		// calculates world t
+		t = r.t_to_point(point);
+
 		// checks if t is the nearest t
 		//TODO take lights component calculations outside scene objects iteration. only compute light for nearest object
-		if(t > 0 && t < lowestT) {
+		if(t < lowestT) {
 			lowestT = t;
 
 			// calculate normal
@@ -86,17 +126,15 @@ vec3 color(ray& r) {
 			vec3 tempColor = vec3(0, 0, 0);
 
 			// calculate color with lights
-			vec3 materialColor = vec3((*it)->material.red, (*it)->material.green, (*it)->material.blue);
+			vec3 materialColor = vec3(material.red, material.green, material.blue);
 
 			// AMBIENT CONTRIBUTION
 			for (std::vector<Light>::iterator lightIterator = lights.begin(); lightIterator != lights.end(); ++lightIterator) {
 
 				vec3 lightColor = vec3((*lightIterator).red, (*lightIterator).green, (*lightIterator).blue);
 
-				tempColor += lightColor * materialColor * (*it)->material.ambient;
+				tempColor += lightColor * materialColor * material.ambient;
 			}
-
-			vec3 point = r.point_at_parameter(t);
 
 			// DIFFUSE CONTRIBUTION
 			for (std::vector<Light>::iterator lightIterator = lights.begin(); lightIterator != lights.end(); ++lightIterator) {
@@ -116,7 +154,7 @@ vec3 color(ray& r) {
 				vec3 lightCenter = vec3((*lightIterator).transformation.x, (*lightIterator).transformation.y, (*lightIterator).transformation.z);
 				vec3 vectorFromPointToLight = unit_vector(lightCenter - point);
 
-				tempColor += lightColor * materialColor * (*it)->material.diffuse * (dot(vectorFromPointToLight, normal));
+				tempColor += lightColor * materialColor * material.diffuse * (dot(vectorFromPointToLight, normal));
 			}
 
 			//specular component

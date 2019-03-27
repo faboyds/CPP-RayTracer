@@ -15,6 +15,7 @@ class ray
         vec3 origin() const       { return A; }
         vec3 direction() const    { return B; }
         vec3 point_at_parameter(float t) const { return A + t*B; }
+        double t_to_point(vec3 point) const { return ((point - A)/B).length(); }
 
 		inline void transform(double matrix[4][4]) {
 

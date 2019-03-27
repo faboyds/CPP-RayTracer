@@ -324,17 +324,7 @@ namespace import_file {
 				triangle.vertices.push_back(v);
 			}
 
-			vec3 A = vec3(triangle.vertices[0].x, triangle.vertices[0].y, triangle.vertices[0].z);
-			vec3 B = vec3(triangle.vertices[1].x, triangle.vertices[1].y, triangle.vertices[1].z);
-			vec3 C = vec3(triangle.vertices[2].x, triangle.vertices[2].y, triangle.vertices[2].z);
-
-			// compute plane's normal
-			vec3 AB = B - A;
-			vec3 AC = C - A;
-			vec3 N = cross(AB, AC);
-			N.make_unit_vector();
-
-			triangle.normalVector = N;
+			triangle.buildNormalVector();
 
 			std::cout << triangle << std::endl;
 			trianglesObject->triangles.push_back(triangle);
@@ -389,32 +379,30 @@ namespace import_file {
 			}
 		}
 
-		// Tobj_final = Tcam x Tobj i
-		for (std::vector<Transformation>::iterator it = transformations.begin() ; it != transformations.end(); ++it) {
+        // Tobj_final = Tcam x Tobj i
+        for (std::vector<Transformation>::iterator it = transformations.begin() ; it != transformations.end(); ++it) {
 
-			if(!tmutl::compareMatrices((*it).matrix, camera.transformation.matrix)) {
+            if(!tmutl::compareMatrices((*it).matrix, camera.transformation.matrix)) {
 
-				tmutl::identityMatrix();
-				tmutl::multiply3(camera.transformation.matrix);
-				tmutl::multiply3((*it).matrix);
+                tmutl::identityMatrix();
+                tmutl::multiply3(camera.transformation.matrix);
+                tmutl::multiply3((*it).matrix);
 
-				memcpy((*it).matrix, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
+                memcpy((*it).matrix, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
 
-				(*it).buildInverseMatrix((*it).matrix, (*it).inverseMatrix);
-				(*it).buildTransposedInversedMatrix((*it).inverseMatrix, (*it).transposedInvertMatrix);
+                (*it).buildInverseMatrix((*it).matrix, (*it).inverseMatrix);
+                (*it).buildTransposedInversedMatrix((*it).inverseMatrix, (*it).transposedInvertMatrix);
 
 
-				/*
-				tmutl::identityMatrix();
-				tmutl::multiply3(camera.transformation.inverseMatrix);
-				tmutl::multiply3((*it).inverseMatrix);
+                /*
+                tmutl::identityMatrix();
+                tmutl::multiply3(camera.transformation.inverseMatrix);
+                tmutl::multiply3((*it).inverseMatrix);
 
-				memcpy((*it).inverseMatrix, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
-				 */
-
-			}
-		}
-
+                memcpy((*it).inverseMatrix, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
+                 */
+            }
+        }
 	}
 
 
