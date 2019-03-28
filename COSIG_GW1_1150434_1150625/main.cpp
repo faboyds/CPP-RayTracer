@@ -79,94 +79,109 @@ vec3 calculate_point(vec3 pointAtObjectReferential, double transformationMatrix[
 vec3 color(ray& r) {
 
 	double lowestT = 99999;
+	SceneObject* hittedObject;
+	vec3 normal;
+	Material material;
+	vec3 point;
+
 	vec3 color = vec3(image.red, image.green, image.blue);
 
 	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); ++it) {
 
+	    vec3 tempPoint;
 		ray tempRay = r;
 
 		// transforms ray to object referential
 		tempRay.transform((*it)->transformation.inverseMatrix);
 
 		// tries to hit object
-		vec3 unit_normal = vec3(0, 0, 0);
+		vec3 tempNormal = vec3(0, 0, 0);
 
 		double t;
-		Material material;
+		Material tempMaterial;
 
 		if(Triangles* triangles = dynamic_cast<Triangles*>(*it)) {
-			t = (*triangles).hit_object(tempRay, unit_normal, material); // in Triangles object, the material differs between the object triangles
+			t = (*triangles).hit_object(tempRay, tempNormal, tempMaterial); // in Triangles object, the material differs between the object triangles
 		} else {
-			material = (*it)->material;
-			t = (*it)->hit_object(tempRay, unit_normal);
+			tempMaterial = (*it)->material;
+			t = (*it)->hit_object(tempRay, tempNormal);
 		}
 
-		if(t < 0) {
-			continue;
-		}
+        if(t < 0) {
+            continue;
+        }
 
-		vec3 pointAtObjectReferential = tempRay.point_at_parameter(t);
-		vec3 point = calculate_point(pointAtObjectReferential, (*it)->transformation.matrix);
+        vec3 pointAtObjectReferential = tempRay.point_at_parameter(t);
+        tempPoint = calculate_point(pointAtObjectReferential, (*it)->transformation.matrix);
 
-		// transforms ray back to world referential
-		tempRay.transform((*it)->transformation.matrix);
-
-		// calculates world t
-		t = r.t_to_point(point);
+        // calculates world t
+        t = r.t_to_point(tempPoint);
 
 		// checks if t is the nearest t
-		//TODO take lights component calculations outside scene objects iteration. only compute light for nearest object
 		if(t < lowestT) {
 			lowestT = t;
+			hittedObject = (*it);
+			normal = vec3(tempNormal.x(), tempNormal.y(), tempNormal.z());
+			material = Material(tempMaterial.red, tempMaterial.green, tempMaterial.blue,
+					tempMaterial.ambient, tempMaterial.diffuse, tempMaterial.reflection, tempMaterial.refractionCoefficient, tempMaterial.refractionIndex);
 
-			// calculate normal
-			vec3 normal = calculate_normal(unit_normal, (*it)->transformation.transposedInvertMatrix);
-
-			//initialize tempColor
-			vec3 tempColor = vec3(0, 0, 0);
-
-			// calculate color with lights
-			vec3 materialColor = vec3(material.red, material.green, material.blue);
-
-			// AMBIENT CONTRIBUTION
-			for (std::vector<Light>::iterator lightIterator = lights.begin(); lightIterator != lights.end(); ++lightIterator) {
-
-				vec3 lightColor = vec3((*lightIterator).red, (*lightIterator).green, (*lightIterator).blue);
-
-				tempColor += lightColor * materialColor * material.ambient;
-			}
-
-			// DIFFUSE CONTRIBUTION
-			for (std::vector<Light>::iterator lightIterator = lights.begin(); lightIterator != lights.end(); ++lightIterator) {
-
-				//TODO check if object is in the shadow
-
-				/**
-				 * new ray (point , L)
-				 * for each obj
-				 * 	if ray intersect obj ( L nao normalizado)
-				 * 		if t > E && t < comprimento L
-				 * 			return true
-		 		 * false
-				 */
-
-				vec3 lightColor = vec3((*lightIterator).red, (*lightIterator).green, (*lightIterator).blue);
-				vec3 lightCenter = vec3((*lightIterator).transformation.x, (*lightIterator).transformation.y, (*lightIterator).transformation.z);
-				vec3 vectorFromPointToLight = unit_vector(lightCenter - point);
-
-				tempColor += lightColor * materialColor * material.diffuse * (dot(vectorFromPointToLight, normal));
-			}
-
-			//specular component
-			//vec3 vectorFromPointToEye = -r.direction();
-			//vec3 H = unit_vector((vectorFromPointToEye + vectorFromPointToLight) / 2);
-			//double specularComponent = (*it)->material.reflection * pow(dot(H, normal), 50); // specularity coefficient ?? =50 for now
-
-			// updates color with new values
-			color.e[0] = tempColor.e[0];
-			color.e[1] = tempColor.e[1];
-			color.e[2] = tempColor.e[2];
+			point = vec3(tempPoint.x(), tempPoint.y(), tempPoint.z());
 		}
+	}
+
+	// if any object was hitted
+	if (lowestT < 99999) {
+
+		// calculate normal
+		normal = calculate_normal(normal, hittedObject->transformation.transposedInvertMatrix);
+
+		//initialize tempColor
+		vec3 tempColor = vec3(0, 0, 0);
+
+		// calculate color with lights
+		vec3 materialColor = vec3(material.red, material.green, material.blue);
+
+		// AMBIENT CONTRIBUTION
+		for (std::vector<Light>::iterator lightIterator = lights.begin();
+			 lightIterator != lights.end(); ++lightIterator) {
+
+			vec3 lightColor = vec3((*lightIterator).red, (*lightIterator).green, (*lightIterator).blue);
+
+			tempColor += lightColor * materialColor * material.ambient;
+		}
+
+		// DIFFUSE CONTRIBUTION
+		for (std::vector<Light>::iterator lightIterator = lights.begin();
+			 lightIterator != lights.end(); ++lightIterator) {
+
+			//TODO check if object is in the shadow
+
+			/**
+             * new ray (point , L)
+             * for each obj
+             * 	if ray intersect obj ( L nao normalizado)
+             * 		if t > E && t < comprimento L
+             * 			return true
+              * false
+             */
+
+			vec3 lightColor = vec3((*lightIterator).red, (*lightIterator).green, (*lightIterator).blue);
+			vec3 lightCenter = vec3((*lightIterator).transformation.x, (*lightIterator).transformation.y,
+									(*lightIterator).transformation.z);
+			vec3 vectorFromPointToLight = unit_vector(lightCenter - point);
+
+			tempColor += lightColor * materialColor * material.diffuse * (dot(vectorFromPointToLight, normal));
+		}
+
+		//specular component
+		//vec3 vectorFromPointToEye = -r.direction();
+		//vec3 H = unit_vector((vectorFromPointToEye + vectorFromPointToLight) / 2);
+		//double specularComponent = (*it)->material.reflection * pow(dot(H, normal), 50); // specularity coefficient ?? =50 for now
+
+		// updates color with new values
+		color.e[0] = tempColor.e[0];
+		color.e[1] = tempColor.e[1];
+		color.e[2] = tempColor.e[2];
 	}
 
 	//background
