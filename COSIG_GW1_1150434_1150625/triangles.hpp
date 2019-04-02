@@ -27,7 +27,8 @@ public:
               std::vector<Triangle> triangles
            );
 
-	virtual double hit_object(ray &ray, vec3 &normal, Material &material);
+    virtual double hit_object(ray &ray, vec3 &normal, Material &material);
+    virtual double hit_object(ray &ray);
     
     friend std::ostream& operator<<(std::ostream&, const Triangles&);
 };

@@ -36,6 +36,7 @@ public:
 
     virtual double hit_object(ray &, vec3 &) { return -1; };
     virtual double hit_object(ray &, vec3 &, Material &) { return -1; };
+    virtual double hit_object(ray &) { return -1; };
     
     friend std::ostream& operator<<(std::ostream&, const SceneObject&);
 };

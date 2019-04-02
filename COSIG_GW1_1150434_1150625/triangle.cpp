@@ -21,7 +21,7 @@ void Triangle::buildNormalVector() {
     vec3 AB = B - A;
     vec3 AC = C - A;
     vec3 N = cross(AB, AC);
-    N.make_unit_vector();
+    N = unit_vector(N);
 
     normalVector = N;
 }

@@ -68,38 +68,28 @@ inline double Box::hit_object(ray &r, vec3 &normal) {
 
     vec3 point = r.point_at_parameter(tnear);
 
-    static const vec3 normals[] = { // A cube has 3 possible orientations
-            vec3(1,0,0),
-            vec3(0,1,0),
-            vec3(0,0,1)
-    };
+    double ep = 0.00001;
 
-    const vec3 interRelative = point - vec3(transformation.x, transformation.y, transformation.z);
-    const double xyCoef = interRelative.y() / interRelative.x();
-    const double zyCoef = interRelative.y() / interRelative.z();
-
-    int coef;
-
-    if(xyCoef >= -1 && xyCoef <= 1) {
-        coef = 1;
-    } else if (zyCoef > -1 && zyCoef < 1) {  // Here it's exclusive to avoid coef to be 3
-        coef = 2;
-    } else {
-        coef = 0;
-    }
-
-
-    normal = normals[coef];
-
-    if(coef == 0 && point.x() * 1.000001 >= -maxCoord) {
-        normal = -normal;
-    } else if(coef == 1 && point.y() * 1.000001 >= -maxCoord) {
-        normal = -normal;
-    } else if(coef == 2 && point.z() * 1.000001 >= -maxCoord) {
-        normal = -normal;
+    if (fabs(point.x() + maxCoord) < ep) {
+        normal = vec3(-1, 0, 0);
+    } else if (fabs(point.x() - maxCoord) < ep) {
+        normal = vec3(1, 0, 0);
+    } else if (fabs(point.y() + maxCoord) < ep) {
+        normal = vec3(0, -1, 0);
+    } else if (fabs(point.y() - maxCoord) < ep) {
+        normal = vec3(0, -1, 0);
+    } else if (fabs(point.z() + maxCoord) < ep) {
+        normal = vec3(0, 0, -1);
+    } else if (fabs(point.z() - maxCoord) < ep) {
+        normal = vec3(0, 0, 1);
     }
 
     return tnear;
+}
+
+inline double Box::hit_object(ray &r) {
+    vec3 norm;
+    return hit_object(r, norm);
 }
 
 std::ostream& operator<<(std::ostream &strm, const Box &b) {

@@ -25,6 +25,7 @@
 #include "vertex.hpp"
 
 #define PI 3.14159265
+#define EPSILON 0.0001
 
 Image image;
 Camera camera;
@@ -35,22 +36,13 @@ std::vector<SceneObject *> objects;
 std::string outputFile;
 
 vec3 calculate_normal(vec3 unit_normal, double transposed_inverted_matrix[4][4]) {
-	tmutl::identityMatrix();
+    vec3 normal;
+
+    tmutl::identityMatrix();
 	tmutl::multiply3(transposed_inverted_matrix);
+	tmutl::multiply1(unit_normal.e, normal.e);
 
-	double auxMatrix[4][1];
-
-	auxMatrix[0][0] = unit_normal.x();
-	auxMatrix[1][0] = unit_normal.y();
-	auxMatrix[2][0] = unit_normal.z();
-	auxMatrix[3][0] = unit_normal.w();
-	tmutl::multiply4x4b4x1(auxMatrix);
-
-	vec3 normal;
-
-	normal.e[0] = tmutl::transformMatrix[0][0];
-	normal.e[1] = tmutl::transformMatrix[1][0];
-	normal.e[2] = tmutl::transformMatrix[2][0];
+	normal.e[4] = 0;
 
 	return normal;
 }
@@ -76,7 +68,7 @@ vec3 calculate_point(vec3 pointAtObjectReferential, double transformationMatrix[
 	return point;
 }
 
-vec3 color(ray& r) {
+vec3 color(ray& r, int level) {
 
 	double lowestT = 99999;
 	SceneObject* hittedObject;
@@ -84,7 +76,7 @@ vec3 color(ray& r) {
 	Material material;
 	vec3 point;
 
-	vec3 color = vec3(image.red, image.green, image.blue);
+	vec3 finalColor = vec3(image.red, image.green, image.blue);
 
 	for (std::vector<SceneObject *>::iterator it = objects.begin(); it != objects.end(); ++it) {
 
@@ -97,7 +89,7 @@ vec3 color(ray& r) {
 		// tries to hit object
 		vec3 tempNormal = vec3(0, 0, 0);
 
-		double t;
+		double t = -1;
 		Material tempMaterial;
 
 		if(Triangles* triangles = dynamic_cast<Triangles*>(*it)) {
@@ -107,17 +99,17 @@ vec3 color(ray& r) {
 			t = (*it)->hit_object(tempRay, tempNormal);
 		}
 
-        if(t < 0) {
-            continue;
-        }
+		if(t < EPSILON) {
+			continue;
+		}
 
-        vec3 pointAtObjectReferential = tempRay.point_at_parameter(t);
+		vec3 pointAtObjectReferential = tempRay.point_at_parameter(t);
         tempPoint = calculate_point(pointAtObjectReferential, (*it)->transformation.matrix);
 
         // calculates world t
         t = r.t_to_point(tempPoint);
 
-		// checks if t is the nearest t
+        // checks if t is the nearest t
 		if(t < lowestT) {
 			lowestT = t;
 			hittedObject = (*it);
@@ -133,59 +125,121 @@ vec3 color(ray& r) {
 	if (lowestT < 99999) {
 
 		// calculate normal
-		normal = calculate_normal(normal, hittedObject->transformation.transposedInvertMatrix);
+		normal = unit_vector(calculate_normal(normal, hittedObject->transformation.transposedInvertMatrix));
 
-		//initialize tempColor
+		// initialize tempColor
 		vec3 tempColor = vec3(0, 0, 0);
-
-		// calculate color with lights
 		vec3 materialColor = vec3(material.red, material.green, material.blue);
 
-		// AMBIENT CONTRIBUTION
+		// iterate all lights
 		for (std::vector<Light>::iterator lightIterator = lights.begin();
 			 lightIterator != lights.end(); ++lightIterator) {
 
-			vec3 lightColor = vec3((*lightIterator).red, (*lightIterator).green, (*lightIterator).blue);
+            vec3 lightColor = vec3((*lightIterator).red, (*lightIterator).green, (*lightIterator).blue);
 
-			tempColor += lightColor * materialColor * material.ambient;
-		}
+            //calculate light position
+            vec3 lightCenter;
+            vec3 tempLightCenter = vec3(0, 0, 0);
+            tempLightCenter.e[3] = 1;
+            tmutl::identityMatrix();
+            tmutl::multiply3((*lightIterator).transformation.matrix);
+            tmutl::multiply1(tempLightCenter.e, lightCenter.e);
+            lightCenter.e[3] = 1;
 
-		// DIFFUSE CONTRIBUTION
-		for (std::vector<Light>::iterator lightIterator = lights.begin();
-			 lightIterator != lights.end(); ++lightIterator) {
+            // AMBIENT CONTRIBUTION
+            tempColor += lightColor * materialColor * material.ambient;
 
-			//TODO check if object is in the shadow
+            // DIFFUSE CONTRIBUTION
+            double Llength = (lightCenter - point).length(); // vector L length
+            ray rayPointToLight = ray(point, unit_vector(lightCenter - point)); // vector L normalize
 
-			/**
-             * new ray (point , L)
-             * for each obj
-             * 	if ray intersect obj ( L nao normalizado)
-             * 		if t > E && t < comprimento L
-             * 			return true
-              * false
-             */
+            bool isInShadow = false;
 
-			vec3 lightColor = vec3((*lightIterator).red, (*lightIterator).green, (*lightIterator).blue);
-			vec3 lightCenter = vec3((*lightIterator).transformation.x, (*lightIterator).transformation.y,
-									(*lightIterator).transformation.z);
-			vec3 vectorFromPointToLight = unit_vector(lightCenter - point);
+            for (std::vector<SceneObject *>::iterator objectIt = objects.begin();
+                 objectIt != objects.end(); ++objectIt) {
 
-			tempColor += lightColor * materialColor * material.diffuse * (dot(vectorFromPointToLight, normal));
-		}
+                double t;
 
-		//specular component
-		//vec3 vectorFromPointToEye = -r.direction();
-		//vec3 H = unit_vector((vectorFromPointToEye + vectorFromPointToLight) / 2);
-		//double specularComponent = (*it)->material.reflection * pow(dot(H, normal), 50); // specularity coefficient ?? =50 for now
+                ray tempRay = rayPointToLight;
+                vec3 tempPoint;
+
+                // transforms ray to object referential
+                tempRay.transform((*objectIt)->transformation.inverseMatrix);
+
+                if (Triangles *triangles = dynamic_cast<Triangles *>(*objectIt)) {
+                    t = (*triangles).hit_object(tempRay);
+                } else {
+                    t = (*objectIt)->hit_object(tempRay);
+                }
+
+                if (t < EPSILON) {
+                    continue;
+                }
+
+                vec3 pointAtObjectReferential = tempRay.point_at_parameter(t);
+                tempPoint = calculate_point(pointAtObjectReferential, (*objectIt)->transformation.matrix);
+
+                // calculates world t
+                t = rayPointToLight.t_to_point(tempPoint);
+
+                if (t < Llength) {
+                    isInShadow = true;
+                    break;
+                }
+            }
+
+            if (!isInShadow) {
+                double d = dot(rayPointToLight.direction(), normal);
+                if (d > 0) {
+                    tempColor += lightColor * materialColor * material.diffuse * (d);
+                }
+            }
+
+            if (level > 0) {
+                //SPECULAR CONTRIBUTION
+
+                if (material.reflection > 0) {
+
+                    ray reflectedRay = ray(point, unit_vector(r.direction() - 2 * dot(r.direction(), normal) * normal));
+                    vec3 reflectedResult = color(reflectedRay, level - 1);
+
+                    tempColor += materialColor * material.reflection * reflectedResult;
+                }
+
+                if (material.refractionCoefficient > 0) {
+
+                    vec3 refractedDirection;
+                    double dt = dot(r.direction(), normal);
+                    double n = material.refractionIndex;
+
+                    double sinal = -1;
+
+                    if(dt < 0) {
+                        n = 1/n;
+                        sinal = -sinal;
+                        dt = -dt;
+                    }
+
+                    double discriminant = 1.0 - n * n * (1.0 - dt * dt);
+
+                    refractedDirection = (n * r.direction()) + sinal*(n * dt - sqrt(discriminant)) * normal;
+
+                    ray refractedRay = ray(point + EPSILON * r.direction(), unit_vector(refractedDirection));
+                    vec3 refractedResult = color(refractedRay, level - 1);
+
+                    tempColor += materialColor * material.refractionCoefficient * refractedResult;
+                }
+            }
+        }
 
 		// updates color with new values
-		color.e[0] = tempColor.e[0];
-		color.e[1] = tempColor.e[1];
-		color.e[2] = tempColor.e[2];
+		finalColor.e[0] = tempColor.e[0];
+		finalColor.e[1] = tempColor.e[1];
+		finalColor.e[2] = tempColor.e[2];
 	}
 
 	//background
-	return color;
+	return finalColor;
 }
 
 void export_image() {
@@ -196,8 +250,6 @@ void export_image() {
 
 	double height = 2 * (camera.distance * tan((camera.field_of_view/2) * (PI/180)));
 	double width = height*image.width/image.height;
-
-	std::cout << height << "   " << width << "\n\n";
 
 	vec3 lower_left_corner(-width/2, -height/2, -camera.distance);
 	vec3 horizontal(width, 0.0, 0.0);
@@ -213,12 +265,7 @@ void export_image() {
 			//ray is p(t) = A + t*B, A being the origin and B being the direction
 			ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
 
-			if(j < 10 && i < 10) {
-				std::cout << r.B.x() << "   " << r.B.y() << "   " << r.B.z() << "\n";
-			}
-
-
-			vec3 col = color(r);
+			vec3 col = color(r, 2);
 			int ir = int(255*col[0]);
 			int ig = int(255*col[1]);
 			int ib = int(255*col[2]);

@@ -24,7 +24,8 @@ public:
         Material material
         );
 
-	virtual double hit_object(ray &ray, vec3 &normal);
+    virtual double hit_object(ray &ray, vec3 &normal);
+    virtual double hit_object(ray &ray);
     
     friend std::ostream& operator<<(std::ostream&, const Box&);
 };

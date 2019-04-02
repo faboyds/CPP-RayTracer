@@ -188,6 +188,13 @@ inline double Triangles::hit_object(ray &r, vec3 &normal, Material &m) {
     return lowestT;
 }
 
+inline double Triangles::hit_object(ray &r) {
+    vec3 norm;
+    Material m;
+
+    return hit_object(r, norm, m);
+}
+
 std::ostream& operator<<(std::ostream &strm, const Triangles &t) {
     return strm << "Triangles( transformation: " << t.transformation << " )";
 }

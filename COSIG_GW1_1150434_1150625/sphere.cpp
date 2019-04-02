@@ -28,11 +28,11 @@ Note that A and B and C refer to the origin of the vector, the direction of the 
 inline double Sphere::hit_object(ray &r, vec3 &normal) {
 
     //unit sphere in origin
-	vec3 center = vec3(0, 0, 0);
+    vec3 center = vec3(0, 0, 0);
     double radius = 1;
 
-	vec3 oc = r.origin() - center;
-	//parameters of the quadratic expression
+    vec3 oc = r.origin() - center;
+    //parameters of the quadratic expression
     double a = dot(r.direction(), r.direction());
     double b = 2.0 * dot(oc, r.direction());
     double c = dot(oc, oc) - radius * radius;
@@ -48,19 +48,20 @@ inline double Sphere::hit_object(ray &r, vec3 &normal) {
 
 
         if (t > 0.0) {
-            //TODO Apply lights
-
-			//calculating the normal
-			normal = unit_vector(r.point_at_parameter(t) - center);
-			normal.e[3] = 0;
-
-            vec3 point = unit_vector(r.point_at_parameter(t) - vec3(0, 0, -1));
+            //calculating the normal
+            normal = unit_vector(r.point_at_parameter(t) - center);
+            normal.e[3] = 0;
 
             return t;
         }
     }
 
     return -1;
+}
+
+inline double Sphere::hit_object(ray &r) {
+    vec3 norm;
+    return hit_object(r, norm);
 }
 
 std::ostream& operator<<(std::ostream &strm, const Sphere &s) {

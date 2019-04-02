@@ -34,6 +34,7 @@ public:
     inline double length() const { return sqrt(e[0]*e[0] + e[1]*e[1] + e[2]*e[2]); }
     inline double squared_length() const { return e[0]*e[0] + e[1]*e[1] + e[2]*e[2]; }
     inline void make_unit_vector();
+    inline void make_cartesian_coordinates();
     
     
     double e[4];
@@ -52,8 +53,17 @@ inline std::ostream& operator<<(std::ostream &os, const vec3 &t) {
 }
 
 inline void vec3::make_unit_vector() {
-    double k = 1.0 / sqrt(e[0]*e[0] + e[1]*e[1] + e[2]*e[2]);
-    e[0] *= k; e[1] *= k; e[2] *= k;
+    if(e[3] == 0) {
+        double k = 1.0 / sqrt(e[0] * e[0] + e[1] * e[1] + e[2] * e[2]);
+        e[0] *= k;
+        e[1] *= k;
+        e[2] *= k;
+        e[3] = 0;
+    }
+}
+
+inline void vec3::make_cartesian_coordinates() {
+    e[0] /= e[3]; e[1] /= e[3]; e[2] /= e[3]; e[3] = 1;
 }
 
 inline vec3 operator+(const vec3 &v1, const vec3 &v2) {
@@ -140,6 +150,7 @@ inline vec3& vec3::operator/=(const double t) {
 }
 
 inline vec3 unit_vector(vec3 v) {
+    v.e[3] = 0;
     return v / v.length();
 }
 
