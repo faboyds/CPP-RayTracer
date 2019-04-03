@@ -42,7 +42,7 @@ vec3 calculate_normal(vec3 unit_normal, double transposed_inverted_matrix[4][4])
 	tmutl::multiply3(transposed_inverted_matrix);
 	tmutl::multiply1(unit_normal.e, normal.e);
 
-	normal.e[4] = 0;
+	normal.e[3] = 0;
 
 	return normal;
 }
@@ -71,7 +71,7 @@ vec3 calculate_point(vec3 pointAtObjectReferential, double transformationMatrix[
 vec3 color(ray& r, int level) {
 
 	double lowestT = 99999;
-	SceneObject* hittedObject;
+	SceneObject* hittedObject = nullptr;
 	vec3 normal;
 	Material material;
 	vec3 point;
