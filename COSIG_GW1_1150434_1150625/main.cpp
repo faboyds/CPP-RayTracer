@@ -263,11 +263,11 @@ void export_image() {
 		for (int i = 0; i < image.width; i++) {
 
 			for (int s = 0; s < aa; s++) {
-				float rand_num = ((double)rand() / (RAND_MAX)); //random number between 0 and 1
+				double rand_num = ((double)rand() / (RAND_MAX)); //random number between 0 and 1
 
 				//u and v are coordinates of the pixel in the image, (u,v).
-				double u = double(i + rand_num) / image.width;
-				double v = double(j + rand_num) / image.height;
+				double u = (i + rand_num) / image.width;
+				double v = (j + rand_num) / image.height;
 
 
 				//ray is p(t) = A + t*B, A being the origin and B being the direction
@@ -275,11 +275,11 @@ void export_image() {
 
 				col += color(r, 2);
 			}
-			col /= float(aa);
+			col /= double(aa);
 
-			int ir = int(255*col[0]);
-			int ig = int(255*col[1]);
-			int ib = int(255*col[2]);
+			int ir = int(255.99*col[0]);
+			int ig = int(255.99*col[1]);
+			int ib = int(255.99*col[2]);
 			outfile << ir << " " << ig << " " << ib << std::endl;
 		}
 	}
