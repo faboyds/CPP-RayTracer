@@ -15,12 +15,14 @@
 
 #include "triangle.hpp"
 #include "sceneObject.hpp"
+#include "boundingBox.hpp"
 
 class Triangles : public SceneObject{
     
 public:
-    
+
     std::vector<Triangle> triangles;
+    BoundingBox boundingBox = BoundingBox(vec3(-9999,-9999,-9999), vec3(9999,9999,9999));
     
     Triangles(
               Transformation &transformation,

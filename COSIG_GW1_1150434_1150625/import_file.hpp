@@ -7,6 +7,7 @@
 #include "sphere.hpp"
 #include "triangles.hpp"
 #include "vertex.hpp"
+#include "boundingBox.hpp"
 
 namespace import_file {
 	void importScene(Image &image,

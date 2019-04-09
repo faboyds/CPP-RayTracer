@@ -95,6 +95,8 @@ namespace import_file {
 
 		Transformation t;
 
+		tmutl::identityMatrix();
+
 		while (std::getline(testSceneFile, line) && line.find("}") == std::string::npos) {
 
 			trim(line);
@@ -106,9 +108,11 @@ namespace import_file {
 				double y = std::atof(translate[2].c_str());
 				double z = std::atof(translate[3].c_str());
 
-				t.x = x;
-				t.y = y;
-				t.z = z;
+				//t.x = x;
+				//t.y = y;
+				//t.z = z;
+
+				tmutl::translate(x, y, z);
 			}
 
 			if (line.find("S") != std::string::npos) {
@@ -118,9 +122,11 @@ namespace import_file {
 				double y = std::atof(scale[2].c_str());
 				double z = std::atof(scale[3].c_str());
 
-				t.scaleX = x;
-				t.scaleY = y;
-				t.scaleZ = z;
+				//t.scaleX = x;
+				//t.scaleY = y;
+				//t.scaleZ = z;
+
+				tmutl::scale(x, y, z);
 			}
 
 			if (line.find("Rx") != std::string::npos) {
@@ -128,7 +134,9 @@ namespace import_file {
 
 				double x = std::atof(rotationX[1].c_str());
 
-				t.rotationX = x;
+				//t.rotationX = x;
+
+				tmutl::rotateX(x);
 			}
 
 			if (line.find("Ry") != std::string::npos) {
@@ -136,7 +144,9 @@ namespace import_file {
 
 				double y = std::atof(rotationY[1].c_str());
 
-				t.rotationY = y;
+				//t.rotationY = y;
+
+				tmutl::rotateY(y);
 			}
 
 			if (line.find("Rz") != std::string::npos) {
@@ -144,12 +154,16 @@ namespace import_file {
 
 				double z = std::atof(rotationZ[1].c_str());
 
-				t.rotationZ = z;
+				//t.rotationZ = z;
+
+				tmutl::rotateZ(z);
 			}
 		}
 
-		t.buildMatrix(t.matrix);
+		//t.buildMatrix(t.matrix);
+		memcpy(t.matrix, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
 		t.buildInverseMatrix(t.matrix, t.inverseMatrix);
+
 		std::cout << t << std::endl;
 		transformations.push_back(t);
 	}
@@ -260,6 +274,11 @@ namespace import_file {
 		// create sphere
 		Sphere* s = new Sphere(transformations.at(transformationIndexValue), materials.at(materialIndexValue));
 		std::cout << &s << std::endl;
+
+
+		double bboxCoord = 0.7071; //constant since it is always hitting an unit sphere
+		s->boundingBox = BoundingBox(vec3(-bboxCoord, -bboxCoord, -bboxCoord), vec3(bboxCoord, bboxCoord, bboxCoord));
+
 		objects.push_back(s);
 
 		std::getline(testSceneFile, line); //read '}'
@@ -299,6 +318,9 @@ namespace import_file {
 
 		Triangles* trianglesObject = new Triangles(transformations.at(transformationIndexValue), std::vector<Triangle>());
 
+		vec3 pMin = vec3(0,0,0);
+        vec3 pMax = vec3(0,0,0);
+
 		while (std::getline(testSceneFile, line) && line.find("}") == std::string::npos) {
 			//read material index ^
 
@@ -322,6 +344,26 @@ namespace import_file {
 
 				Vertex v(x, y, z);
 				triangle.vertices.push_back(v);
+
+                if(v.x > pMax.x()){
+                    pMax.e[0] = v.x;
+                }
+                if(v.y > pMax.y()){
+                    pMax.e[1] = v.y;
+                }
+                if(v.z > pMax.z()){
+                    pMax.e[2] = v.z;
+                }
+
+                if(v.x < pMin.x()){
+                    pMin.e[0] = v.x;
+                }
+                if(v.y < pMin.y()){
+                    pMin.e[1] = v.y;
+                }
+                if(v.z < pMin.z()){
+                    pMin.e[2] = v.z;
+                }
 			}
 
 			triangle.buildNormalVector();
@@ -330,7 +372,10 @@ namespace import_file {
 			trianglesObject->triangles.push_back(triangle);
 		}
 
-		std::cout << &trianglesObject << std::endl;
+        BoundingBox bbox = BoundingBox(pMin, pMax);
+		trianglesObject->boundingBox = bbox;
+
+        std::cout << &trianglesObject << std::endl;
 		objects.push_back(trianglesObject);
 	}
 

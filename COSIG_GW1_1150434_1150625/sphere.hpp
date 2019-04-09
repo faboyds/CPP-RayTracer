@@ -14,10 +14,13 @@
 
 #include "material.hpp"
 #include "sceneObject.hpp"
+#include "boundingBox.hpp"
 
 class Sphere : public SceneObject{
     
 public:
+
+    BoundingBox boundingBox = BoundingBox(vec3(-9999,-9999,-9999), vec3(9999,9999,9999));
     
     Sphere(
         Transformation &transformation,

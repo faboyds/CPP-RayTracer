@@ -289,16 +289,22 @@ void export_image() {
 }
 
 int main(int argc, const char * argv[]) {
-    
+
     outputFile = argv[1];
-    
-	//imports file
+
+    clock_t timeStart = clock();
+
+    //imports file
     import_file::importScene(image, materials, transformations, lights, objects, camera);
 
 	//exports image
 	export_image();
 
-	//to press enter to leave
+    clock_t timeEnd = clock();
+
+    printf("Render time: %04.2f (sec)\n", (float)(timeEnd - timeStart) / CLOCKS_PER_SEC);
+
+    //to press enter to leave
 	//getchar(); 
 
     return 0;
