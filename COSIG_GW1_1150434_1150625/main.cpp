@@ -250,7 +250,7 @@ void export_image() {
 
 	double height = 2 * (camera.distance * tan((camera.field_of_view/2) * (PI/180)));
 	double width = height*image.width/image.height;
-	int aa = 4;
+	int aa = 0;
 
 	vec3 lower_left_corner(-width/2, -height/2, -camera.distance);
 	vec3 horizontal(width, 0.0, 0.0);
@@ -262,20 +262,33 @@ void export_image() {
 	for (int j = image.height - 1; j >= 0; j--) {
 		for (int i = 0; i < image.width; i++) {
 
-			for (int s = 0; s < aa; s++) {
-				double rand_num = ((double)rand() / (RAND_MAX)); //random number between 0 and 1
+		    if (aa > 0) {
+		        for (int s = 0; s < aa; s++) {
+                    double rand_num = ((double)rand() / (RAND_MAX)); //random number between 0 and 1
 
-				//u and v are coordinates of the pixel in the image, (u,v).
-				double u = (i + rand_num) / image.width;
-				double v = (j + rand_num) / image.height;
+                    //u and v are coordinates of the pixel in the image, (u,v).
+                    double u = (i + rand_num) / image.width;
+                    double v = (j + rand_num) / image.height;
 
 
-				//ray is p(t) = A + t*B, A being the origin and B being the direction
-				ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
+                    //ray is p(t) = A + t*B, A being the origin and B being the direction
+                    ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
 
-				col += color(r, 2);
-			}
-			col /= double(aa);
+                    col += color(r, 2);
+                }
+                col /= double(aa);
+		    } else {
+                //u and v are coordinates of the pixel in the image, (u,v).
+                double u = (i + 0.5) / image.width;
+                double v = (j + 0.5) / image.height;
+
+
+                //ray is p(t) = A + t*B, A being the origin and B being the direction
+                ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
+
+                col = color(r, 2);
+		    }
+
 
 			int ir = int(255.99*col[0]);
 			int ig = int(255.99*col[1]);
