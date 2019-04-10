@@ -15,7 +15,8 @@ namespace import_file {
 		std::vector<Transformation> &transformations,
 		std::vector<Light> &lights,
 		std::vector<SceneObject *> &objects,
-		Camera &camera);
+		Camera &camera,
+		std::string inputFile);
 
 	void get_image_information(Image &image);
 	void get_materials_information(std::vector<Material> &materials);

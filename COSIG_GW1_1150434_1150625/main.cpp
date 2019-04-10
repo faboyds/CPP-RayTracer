@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <math.h>
+#include <sstream>
 
 #include "ray.hpp"
 #include "vec3.hpp"
@@ -34,6 +35,13 @@ std::vector<Transformation> transformations;
 std::vector<Light> lights;
 std::vector<SceneObject *> objects;
 std::string outputFile;
+
+bool AMBIENT = false;
+bool DIFFUSE = false;
+bool REFLECTION = false;
+bool REFRACTION = false;
+int ANTI_ALIASING_RATE = 4;
+int RECURSION_LEVEL = 2;
 
 vec3 calculate_normal(vec3 unit_normal, double transposed_inverted_matrix[4][4]) {
     vec3 normal;
@@ -146,88 +154,99 @@ vec3 color(ray& r, int level) {
             tmutl::multiply1(tempLightCenter.e, lightCenter.e);
             lightCenter.e[3] = 1;
 
-            // AMBIENT CONTRIBUTION
-            tempColor += lightColor * materialColor * material.ambient;
-
-            // DIFFUSE CONTRIBUTION
-            double Llength = (lightCenter - point).length(); // vector L length
-            ray rayPointToLight = ray(point, unit_vector(lightCenter - point)); // vector L normalize
-
-            bool isInShadow = false;
-
-            for (std::vector<SceneObject *>::iterator objectIt = objects.begin();
-                 objectIt != objects.end(); ++objectIt) {
-
-                double t;
-
-                ray tempRay = rayPointToLight;
-                vec3 tempPoint;
-
-                // transforms ray to object referential
-                tempRay.transform((*objectIt)->transformation.inverseMatrix);
-
-                if (Triangles *triangles = dynamic_cast<Triangles *>(*objectIt)) {
-                    t = (*triangles).hit_object(tempRay);
-                } else {
-                    t = (*objectIt)->hit_object(tempRay);
-                }
-
-                if (t < EPSILON) {
-                    continue;
-                }
-
-                vec3 pointAtObjectReferential = tempRay.point_at_parameter(t);
-                tempPoint = calculate_point(pointAtObjectReferential, (*objectIt)->transformation.matrix);
-
-                // calculates world t
-                t = rayPointToLight.t_to_point(tempPoint);
-
-                if (t < Llength) {
-                    isInShadow = true;
-                    break;
-                }
+            if (AMBIENT) {
+                // AMBIENT CONTRIBUTION
+                tempColor += lightColor * materialColor * material.ambient;
             }
 
-            if (!isInShadow) {
-                double d = dot(rayPointToLight.direction(), normal);
-                if (d > 0) {
-                    tempColor += lightColor * materialColor * material.diffuse * (d);
+            if (DIFFUSE) {
+                // DIFFUSE CONTRIBUTION
+                bool isInShadow = false;
+
+                double Llength = (lightCenter - point).length(); // vector L length
+                ray rayPointToLight = ray(point, unit_vector(lightCenter - point)); // vector L normalize
+
+
+                for (std::vector<SceneObject *>::iterator objectIt = objects.begin();
+                     objectIt != objects.end(); ++objectIt) {
+
+                    double t;
+
+                    ray tempRay = rayPointToLight;
+                    vec3 tempPoint;
+
+                    // transforms ray to object referential
+                    tempRay.transform((*objectIt)->transformation.inverseMatrix);
+
+                    if (Triangles *triangles = dynamic_cast<Triangles *>(*objectIt)) {
+                        t = (*triangles).hit_object(tempRay);
+                    } else {
+                        t = (*objectIt)->hit_object(tempRay);
+                    }
+
+                    if (t < EPSILON) {
+                        continue;
+                    }
+
+                    vec3 pointAtObjectReferential = tempRay.point_at_parameter(t);
+                    tempPoint = calculate_point(pointAtObjectReferential, (*objectIt)->transformation.matrix);
+
+                    // calculates world t
+                    t = rayPointToLight.t_to_point(tempPoint);
+
+                    if (t < Llength) {
+                        isInShadow = true;
+                        break;
+                    }
                 }
+
+                if (!isInShadow) {
+                    double d = dot(rayPointToLight.direction(), normal);
+                    if (d > 0) {
+                        tempColor += lightColor * materialColor * material.diffuse * (d);
+                    }
+                }
+
             }
 
             if (level > 0) {
                 //SPECULAR CONTRIBUTION
 
-                if (material.reflection > 0) {
+                if (REFLECTION) {
+                    if (material.reflection > 0) {
 
-                    ray reflectedRay = ray(point, unit_vector(r.direction() - 2 * dot(r.direction(), normal) * normal));
-                    vec3 reflectedResult = color(reflectedRay, level - 1);
+                        ray reflectedRay = ray(point,
+                                               unit_vector(r.direction() - 2 * dot(r.direction(), normal) * normal));
+                        vec3 reflectedResult = color(reflectedRay, level - 1);
 
-                    tempColor += materialColor * material.reflection * reflectedResult;
+                        tempColor += materialColor * material.reflection * reflectedResult;
+                    }
                 }
 
-                if (material.refractionCoefficient > 0) {
+                if (REFRACTION) {
+                    if (material.refractionCoefficient > 0) {
 
-                    vec3 refractedDirection;
-                    double dt = dot(r.direction(), normal);
-                    double n = material.refractionIndex;
+                        vec3 refractedDirection;
+                        double dt = dot(r.direction(), normal);
+                        double n = material.refractionIndex;
 
-                    double sinal = -1;
+                        double sinal = -1;
 
-                    if(dt < 0) {
-                        n = 1/n;
-                        sinal = -sinal;
-                        dt = -dt;
+                        if (dt < 0) {
+                            n = 1 / n;
+                            sinal = -sinal;
+                            dt = -dt;
+                        }
+
+                        double discriminant = 1.0 - n * n * (1.0 - dt * dt);
+
+                        refractedDirection = (n * r.direction()) + sinal * (n * dt - sqrt(discriminant)) * normal;
+
+                        ray refractedRay = ray(point + EPSILON * r.direction(), unit_vector(refractedDirection));
+                        vec3 refractedResult = color(refractedRay, level - 1);
+
+                        tempColor += materialColor * material.refractionCoefficient * refractedResult;
                     }
-
-                    double discriminant = 1.0 - n * n * (1.0 - dt * dt);
-
-                    refractedDirection = (n * r.direction()) + sinal*(n * dt - sqrt(discriminant)) * normal;
-
-                    ray refractedRay = ray(point + EPSILON * r.direction(), unit_vector(refractedDirection));
-                    vec3 refractedResult = color(refractedRay, level - 1);
-
-                    tempColor += materialColor * material.refractionCoefficient * refractedResult;
                 }
             }
         }
@@ -250,7 +269,6 @@ void export_image() {
 
 	double height = 2 * (camera.distance * tan((camera.field_of_view/2) * (PI/180)));
 	double width = height*image.width/image.height;
-	int aa = 0;
 
 	vec3 lower_left_corner(-width/2, -height/2, -camera.distance);
 	vec3 horizontal(width, 0.0, 0.0);
@@ -262,8 +280,8 @@ void export_image() {
 	for (int j = image.height - 1; j >= 0; j--) {
 		for (int i = 0; i < image.width; i++) {
 
-		    if (aa > 0) {
-		        for (int s = 0; s < aa; s++) {
+		    if (ANTI_ALIASING_RATE > 0) {
+		        for (int s = 0; s < ANTI_ALIASING_RATE; s++) {
                     double rand_num = ((double)rand() / (RAND_MAX)); //random number between 0 and 1
 
                     //u and v are coordinates of the pixel in the image, (u,v).
@@ -274,9 +292,9 @@ void export_image() {
                     //ray is p(t) = A + t*B, A being the origin and B being the direction
                     ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
 
-                    col += color(r, 2);
+                    col += color(r, RECURSION_LEVEL);
                 }
-                col /= double(aa);
+                col /= double(ANTI_ALIASING_RATE);
 		    } else {
                 //u and v are coordinates of the pixel in the image, (u,v).
                 double u = (i + 0.5) / image.width;
@@ -286,7 +304,7 @@ void export_image() {
                 //ray is p(t) = A + t*B, A being the origin and B being the direction
                 ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
 
-                col = color(r, 2);
+                col = color(r, RECURSION_LEVEL);
 		    }
 
 
@@ -303,12 +321,54 @@ void export_image() {
 
 int main(int argc, const char * argv[]) {
 
-    outputFile = argv[1];
+    std::string inputFile = argv[1];
+    outputFile = argv[2];
+
+    std::istringstream ss(argv[3]);
+    if (!(ss >> RECURSION_LEVEL)) {
+        std::cerr << "Invalid number: " << argv[3] << '\n';
+    } else if (!ss.eof()) {
+        std::cerr << "Trailing characters after number: " << argv[3] << '\n';
+    }
+    if (RECURSION_LEVEL <= 0) {
+        RECURSION_LEVEL = 1;
+    }
+
+    ss = std::istringstream(argv[4]);
+    if (!(ss >> ANTI_ALIASING_RATE)) {
+        std::cerr << "Invalid number: " << argv[4] << '\n';
+    } else if (!ss.eof()) {
+        std::cerr << "Trailing characters after number: " << argv[4] << '\n';
+    }
+
+    if (argc > 5) {
+        for (int i = 4; i < argc; i++) {
+            const char* lightComponent = argv[i];
+
+            if (!strcmp(lightComponent, "ambient")) {
+                AMBIENT = true;
+            }
+            else if (!strcmp(lightComponent, "diffuse")) {
+                DIFFUSE = true;
+            }
+            else if (!strcmp(lightComponent, "reflection")) {
+                REFLECTION = true;
+            }
+            else if (!strcmp(lightComponent, "refraction")) {
+                REFRACTION = true;
+            }
+        }
+    } else {
+        AMBIENT = true;
+        DIFFUSE = true;
+        REFLECTION = true;
+        REFRACTION = true;
+    }
 
     clock_t timeStart = clock();
 
     //imports file
-    import_file::importScene(image, materials, transformations, lights, objects, camera);
+    import_file::importScene(image, materials, transformations, lights, objects, camera, inputFile);
 
 	//exports image
 	export_image();

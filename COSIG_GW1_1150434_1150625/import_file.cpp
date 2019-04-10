@@ -15,7 +15,8 @@
 Creates string stream from file. The file contains the information for the scene to be rendered in a specific format.
 */
 //std::ifstream testSceneFile("C:/Users/lucho/Documents/ISEP/ISEP/COSIG/RayTracer/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
-std::ifstream testSceneFile("/Users/fabiolourenco/Projects/CPP-RayCasting/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
+//std::ifstream testSceneFile("/Users/fabiolourenco/Projects/CPP-RayCasting/COSIG_GW1_1150434_1150625/resources/test_scene.txt");
+std::ifstream testSceneFile;
 
 /*
 Often used to get lines such as 'Material' or '{'
@@ -384,8 +385,11 @@ namespace import_file {
 		std::vector<Transformation> &transformations,
 		std::vector<Light> &lights,
 		std::vector<SceneObject *> &objects,
-		Camera &camera
+		Camera &camera,
+		std::string inputFile
 	) {
+
+		testSceneFile = std::ifstream(inputFile);
 
 		while (std::getline(testSceneFile, line))
 		{
