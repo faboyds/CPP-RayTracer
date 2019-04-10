@@ -15,13 +15,15 @@
 #include "transformation.hpp"
 #include "material.hpp"
 #include "ray.hpp"
+#include "boundingBox.hpp"
 
 class SceneObject {
     
 public:
     Transformation &transformation;
     Material material;
-    
+    BoundingBox boundingBox = BoundingBox(vec3(-9999,-9999,-9999), vec3(9999,9999,9999));
+
     SceneObject();
 	virtual ~SceneObject() { }
     

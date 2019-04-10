@@ -16,7 +16,7 @@ Triangles::Triangles(Transformation &transformation,
 
 inline double Triangles::hit_object(ray &r, vec3 &normal, Material &m) {
 
-    if (!boundingBox.hit_object(r)) return -1;
+    if (!objectReferencialBoundingBox.hit_object(r)) return -1;
 
     double lowestT = 99999;
 

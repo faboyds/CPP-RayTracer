@@ -278,7 +278,7 @@ namespace import_file {
 
 
 		double bboxCoord = 0.7071; //constant since it is always hitting an unit sphere
-		s->boundingBox = BoundingBox(vec3(-bboxCoord, -bboxCoord, -bboxCoord), vec3(bboxCoord, bboxCoord, bboxCoord));
+		s->objectReferencialBoundingBox = BoundingBox(vec3(-bboxCoord, -bboxCoord, -bboxCoord), vec3(bboxCoord, bboxCoord, bboxCoord));
 
 		objects.push_back(s);
 
@@ -302,6 +302,7 @@ namespace import_file {
 
 		// create box
 		Box * b = new Box(transformations.at(transformationIndexValue), materials.at(materialIndexValue));
+
 		std::cout << b << std::endl;
 		objects.push_back(b);
 
@@ -374,7 +375,7 @@ namespace import_file {
 		}
 
         BoundingBox bbox = BoundingBox(pMin, pMax);
-		trianglesObject->boundingBox = bbox;
+		trianglesObject->objectReferencialBoundingBox = bbox;
 
         std::cout << &trianglesObject << std::endl;
 		objects.push_back(trianglesObject);
