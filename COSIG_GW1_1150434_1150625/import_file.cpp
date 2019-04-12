@@ -278,7 +278,7 @@ namespace import_file {
 		std::cout << &s << std::endl;
 
 
-		double bboxCoord = 0.7071; //constant since it is always hitting an unit sphere
+		double bboxCoord = 1.41421356; //constant since it is always hitting an unit sphere
 		s->objectReferentialBoundingBox = BoundingBox(vec3(-bboxCoord, -bboxCoord, -bboxCoord), vec3(bboxCoord, bboxCoord, bboxCoord));
 
 		objects.push_back(s);
