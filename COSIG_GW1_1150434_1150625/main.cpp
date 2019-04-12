@@ -298,6 +298,9 @@ void export_image() {
                 for (int i = 0; i < image.width; i++) {
 
                     if (ANTI_ALIASING_RATE > 0) {
+
+                        col = vec3(0, 0, 0);
+
                         for (int s = 0; s < ANTI_ALIASING_RATE; s++) {
                             double rand_num = ((double)rand() / (RAND_MAX)); //random number between 0 and 1
 
@@ -311,7 +314,8 @@ void export_image() {
 
                             col += color(r, RECURSION_LEVEL);
                         }
-                        col /= double(ANTI_ALIASING_RATE);
+
+                        col *= 1/(float)ANTI_ALIASING_RATE;
                     } else {
                         //u and v are coordinates of the pixel in the image, (u,v).
                         double u = (i + 0.5) / image.width;
