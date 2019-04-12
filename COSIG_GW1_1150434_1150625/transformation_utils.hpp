@@ -1,10 +1,14 @@
 //
-//  transformation.cpp
+//  transformation_utils.hpp
 //  COSIG_GW1_1150434_1150625
 //
 //  Created by Fábio Lourenço on 20/02/2019.
 //  Copyright © 2019 Fábio Lourenço. All rights reserved.
 //
+
+
+#ifndef transformation_utils_hpp
+#define transformation_utils_hpp
 
 #pragma warning(disable : 4996)
 
@@ -13,12 +17,16 @@
 #include <math.h>
 #include <stdio.h>
 
-namespace tmutl {
+class tmutl {
 
+public:
+    double transformMatrix[4][4];
 
-    static double transformMatrix[4][4];
+    tmutl() {
 
-    static void multiply1(double const pointA[], double pointB[])
+    }
+
+    void multiply1(double const pointA[], double pointB[])
     {
         int i, j;
 
@@ -29,7 +37,7 @@ namespace tmutl {
                 pointB[i] += transformMatrix[i][j] * pointA[j];
     }
 
-    static void multiply3(double matrixA[][4])
+    void multiply3(double matrixA[][4])
     {
         int i, j, k;
         double matrixB[4][4];
@@ -48,7 +56,7 @@ namespace tmutl {
     }
 
 
-    static void multiply4x4b4x1(double matrixA[4][1])
+    void multiply4x4b4x1(double matrixA[4][1])
     {
         int i, j, k;
         double matrixB[4][4];
@@ -69,7 +77,7 @@ namespace tmutl {
 
     }
 
-    static void identityMatrix()
+    void identityMatrix()
     {
         transformMatrix[0][0] = 1.0;
         transformMatrix[0][1] = 0.0;
@@ -89,7 +97,7 @@ namespace tmutl {
         transformMatrix[3][3] = 1.0;
     }
 
-    static void translate(double x, double y, double z)
+    void translate(double x, double y, double z)
     {
         double translateMatrix[4][4];
 
@@ -112,7 +120,7 @@ namespace tmutl {
         multiply3(translateMatrix);
     }
 
-    static void rotateX(double a)
+    void rotateX(double a)
     {
         double rotateXMatrix[4][4];
 
@@ -136,7 +144,7 @@ namespace tmutl {
         multiply3(rotateXMatrix);
     }
 
-    static void rotateY(double a)
+    void rotateY(double a)
     {
         double rotateYMatrix[4][4];
 
@@ -160,7 +168,7 @@ namespace tmutl {
         multiply3(rotateYMatrix);
     }
 
-    static void rotateZ(double a)
+    void rotateZ(double a)
     {
         double rotateZMatrix[4][4];
 
@@ -184,7 +192,7 @@ namespace tmutl {
         multiply3(rotateZMatrix);
     }
 
-    static void scale(double x, double y, double z)
+    void scale(double x, double y, double z)
     {
         double scaleMatrix[4][4];
 
@@ -207,7 +215,7 @@ namespace tmutl {
         multiply3(scaleMatrix);
     }
 
-    static bool inverse(const double m[16], double invOut[16]) {
+    bool inverse(const double m[16], double invOut[16]) {
         double inv[16], det;
         int i;
 
@@ -336,7 +344,7 @@ namespace tmutl {
         return true;
     }
 
-    static void process(void)
+    void process(void)
     {
         int m, i;
         double pointA[4], pointB[4];
@@ -354,7 +362,7 @@ namespace tmutl {
         }
     }
 
-    static bool compareMatrices(double matrix1[4][4], double matrix2[4][4])
+    bool compareMatrices(double matrix1[4][4], double matrix2[4][4])
     {
         for (int i=0; i<4; ++i)
             for (int j=0; j<4; ++j)
@@ -363,7 +371,7 @@ namespace tmutl {
         return true;
     }
 
-    static void print(){
+    void print(){
         for(int x=0;x<4;x++)  // loop 4 times for four lines
         {
             for(int y=0;y<4;y++)  // loop for the three elements on the line
@@ -376,7 +384,7 @@ namespace tmutl {
     }
 
     // n is the current size of the matrix. for calling this function, use the dimension of the matrix
-    static double determinant(double matrix[10][10], int n) {
+    double determinant(double matrix[10][10], int n) {
         double det = 0;
         double submatrix [10][10];
 
@@ -402,7 +410,7 @@ namespace tmutl {
         return det;
     }
 
-    static double determinant2(double matrix[3][3]) {
+    double determinant2(double matrix[3][3]) {
         return matrix[0][0]*matrix[1][1]*matrix[2][2] + matrix[0][1]*matrix[1][2]*matrix[2][0] + matrix[0][2]*matrix[1][0]*matrix[2][1]
         - matrix[0][2]*matrix[1][1]*matrix[2][0] - matrix[0][1]*matrix[1][0]*matrix[2][2] - matrix[0][0]*matrix[1][2]*matrix[2][1];
     }
@@ -419,3 +427,5 @@ namespace tmutl {
      */
 
 };
+
+#endif /* transformation_utils_hpp */

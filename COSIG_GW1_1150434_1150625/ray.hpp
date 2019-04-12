@@ -22,34 +22,35 @@ class ray
 			double auxMatrix[4][1];
 
 			//transform origin point -----------------------------------------------------------------------------------
-			tmutl::identityMatrix();
-			tmutl::multiply3(matrix);
+			tmutl utils = tmutl();
+			utils.identityMatrix();
+			utils.multiply3(matrix);
 
 			//convert origin point into matrix to multiply with transformation's matrix
 			auxMatrix[0][0] = A.x();
 			auxMatrix[1][0] = A.y();
 			auxMatrix[2][0] = A.z();
 			auxMatrix[3][0] = A.w();
-			tmutl::multiply4x4b4x1(auxMatrix);
+			utils.multiply4x4b4x1(auxMatrix);
 
-			A.e[0] = tmutl::transformMatrix[0][0];
-			A.e[1] = tmutl::transformMatrix[1][0];
-			A.e[2] = tmutl::transformMatrix[2][0];
+			A.e[0] = utils.transformMatrix[0][0];
+			A.e[1] = utils.transformMatrix[1][0];
+			A.e[2] = utils.transformMatrix[2][0];
 
 			//transform direction vector -------------------------------------------------------------------------------
-			tmutl::identityMatrix();
-			tmutl::multiply3(matrix);
+			utils.identityMatrix();
+			utils.multiply3(matrix);
 
 			//convert direction vector into matrix to multiply with transformation's matrix
 			auxMatrix[0][0] = B.x();
 			auxMatrix[1][0] = B.y();
 			auxMatrix[2][0] = B.z();
 			auxMatrix[3][0] = B.w();
-			tmutl::multiply4x4b4x1(auxMatrix);
+			utils.multiply4x4b4x1(auxMatrix);
 
-			B.e[0] = tmutl::transformMatrix[0][0];
-			B.e[1] = tmutl::transformMatrix[1][0];
-			B.e[2] = tmutl::transformMatrix[2][0];
+			B.e[0] = utils.transformMatrix[0][0];
+			B.e[1] = utils.transformMatrix[1][0];
+			B.e[2] = utils.transformMatrix[2][0];
 			B.make_unit_vector();
 
 

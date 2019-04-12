@@ -23,6 +23,7 @@ public:
     Transformation &transformation;
     Material material;
     BoundingBox boundingBox = BoundingBox(vec3(-9999,-9999,-9999), vec3(9999,9999,9999));
+    BoundingBox objectReferentialBoundingBox = BoundingBox(vec3(-9999,-9999,-9999), vec3(9999,9999,9999));
 
     SceneObject();
 	virtual ~SceneObject() { }

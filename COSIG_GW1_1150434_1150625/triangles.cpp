@@ -16,7 +16,7 @@ Triangles::Triangles(Transformation &transformation,
 
 inline double Triangles::hit_object(ray &r, vec3 &normal, Material &m) {
 
-    if (!objectReferencialBoundingBox.hit_object(r)) return -1;
+    if (!objectReferentialBoundingBox.hit_object(r)) return -1;
 
     double lowestT = 99999;
 
@@ -86,11 +86,13 @@ inline double Triangles::hit_object(ray &r, vec3 &normal, Material &m) {
         mm[2][1] = A.z() - C.z();
         mm[2][2] = r.direction().z();
 
-        double Am = tmutl::determinant2(mm);
+        tmutl utils = tmutl();
 
-        double beta = tmutl::determinant2(matrixA) / Am;
-        double gama = tmutl::determinant2(matrixB) / Am;
-        double t = tmutl::determinant2(matrixT) / Am;
+        double Am = utils.determinant2(mm);
+
+        double beta = utils.determinant2(matrixA) / Am;
+        double gama = utils.determinant2(matrixB) / Am;
+        double t = utils.determinant2(matrixT) / Am;
 
         double alpha = 1 - beta - gama;
 

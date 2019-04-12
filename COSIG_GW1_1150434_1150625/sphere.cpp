@@ -27,7 +27,7 @@ Note that A and B and C refer to the origin of the vector, the direction of the 
 */
 inline double Sphere::hit_object(ray &r, vec3 &normal) {
 
-    if (!objectReferencialBoundingBox.hit_object(r)) return -1;
+    if (!objectReferentialBoundingBox.hit_object(r)) return -1;
 
     //unit sphere in origin
     vec3 center = vec3(0, 0, 0);

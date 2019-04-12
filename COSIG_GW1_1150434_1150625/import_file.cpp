@@ -96,7 +96,8 @@ namespace import_file {
 
 		Transformation t;
 
-		tmutl::identityMatrix();
+		tmutl utils = tmutl();
+        utils.identityMatrix();
 
 		while (std::getline(testSceneFile, line) && line.find("}") == std::string::npos) {
 
@@ -113,7 +114,7 @@ namespace import_file {
 				//t.y = y;
 				//t.z = z;
 
-				tmutl::translate(x, y, z);
+				utils.translate(x, y, z);
 			}
 
 			if (line.find("S") != std::string::npos) {
@@ -127,7 +128,7 @@ namespace import_file {
 				//t.scaleY = y;
 				//t.scaleZ = z;
 
-				tmutl::scale(x, y, z);
+                utils.scale(x, y, z);
 			}
 
 			if (line.find("Rx") != std::string::npos) {
@@ -137,7 +138,7 @@ namespace import_file {
 
 				//t.rotationX = x;
 
-				tmutl::rotateX(x);
+                utils.rotateX(x);
 			}
 
 			if (line.find("Ry") != std::string::npos) {
@@ -147,7 +148,7 @@ namespace import_file {
 
 				//t.rotationY = y;
 
-				tmutl::rotateY(y);
+                utils.rotateY(y);
 			}
 
 			if (line.find("Rz") != std::string::npos) {
@@ -157,12 +158,12 @@ namespace import_file {
 
 				//t.rotationZ = z;
 
-				tmutl::rotateZ(z);
+                utils.rotateZ(z);
 			}
 		}
 
 		//t.buildMatrix(t.matrix);
-		memcpy(t.matrix, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
+		memcpy(t.matrix, utils.transformMatrix, sizeof(tmutl::transformMatrix));
 		t.buildInverseMatrix(t.matrix, t.inverseMatrix);
 
 		std::cout << t << std::endl;
@@ -278,7 +279,7 @@ namespace import_file {
 
 
 		double bboxCoord = 0.7071; //constant since it is always hitting an unit sphere
-		s->objectReferencialBoundingBox = BoundingBox(vec3(-bboxCoord, -bboxCoord, -bboxCoord), vec3(bboxCoord, bboxCoord, bboxCoord));
+		s->objectReferentialBoundingBox = BoundingBox(vec3(-bboxCoord, -bboxCoord, -bboxCoord), vec3(bboxCoord, bboxCoord, bboxCoord));
 
 		objects.push_back(s);
 
@@ -302,6 +303,8 @@ namespace import_file {
 
 		// create box
 		Box * b = new Box(transformations.at(transformationIndexValue), materials.at(materialIndexValue));
+
+		b->objectReferentialBoundingBox = BoundingBox(vec3(-0.5, -0.5, -0.5), vec3(0.5, 0.5, 0.5));
 
 		std::cout << b << std::endl;
 		objects.push_back(b);
@@ -375,7 +378,7 @@ namespace import_file {
 		}
 
         BoundingBox bbox = BoundingBox(pMin, pMax);
-		trianglesObject->objectReferencialBoundingBox = bbox;
+		trianglesObject->objectReferentialBoundingBox = bbox;
 
         std::cout << &trianglesObject << std::endl;
 		objects.push_back(trianglesObject);
@@ -429,30 +432,25 @@ namespace import_file {
 			}
 		}
 
-        // Tobj_final = Tcam x Tobj i
-        for (std::vector<Transformation>::iterator it = transformations.begin() ; it != transformations.end(); ++it) {
 
-            if(!tmutl::compareMatrices((*it).matrix, camera.transformation.matrix)) {
+		// Tobj_final = Tcam x Tobj i
+		for (std::vector<Transformation>::iterator it = transformations.begin() ; it != transformations.end(); ++it) {
 
-                tmutl::identityMatrix();
-                tmutl::multiply3(camera.transformation.matrix);
-                tmutl::multiply3((*it).matrix);
+		    tmutl utils = tmutl();
 
-                memcpy((*it).matrix, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
+			if(!utils.compareMatrices((*it).matrix, camera.transformation.matrix)) {
 
-                (*it).buildInverseMatrix((*it).matrix, (*it).inverseMatrix);
-                (*it).buildTransposedInversedMatrix((*it).inverseMatrix, (*it).transposedInvertMatrix);
+                utils.identityMatrix();
+                utils.multiply3(camera.transformation.matrix);
+				utils.multiply3((*it).matrix);
 
+				memcpy((*it).matrix, utils.transformMatrix, sizeof(tmutl::transformMatrix));
 
-                /*
-                tmutl::identityMatrix();
-                tmutl::multiply3(camera.transformation.inverseMatrix);
-                tmutl::multiply3((*it).inverseMatrix);
+				(*it).buildInverseMatrix((*it).matrix, (*it).inverseMatrix);
+				(*it).buildTransposedInversedMatrix((*it).inverseMatrix, (*it).transposedInvertMatrix);
+			}
+		}
 
-                memcpy((*it).inverseMatrix, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
-                 */
-            }
-        }
 	}
 
 

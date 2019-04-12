@@ -11,6 +11,7 @@
 #include <fstream>
 #include <math.h>
 #include <sstream>
+#include <thread>
 
 #include "ray.hpp"
 #include "vec3.hpp"
@@ -46,9 +47,10 @@ int RECURSION_LEVEL = 2;
 vec3 calculate_normal(vec3 unit_normal, double transposed_inverted_matrix[4][4]) {
     vec3 normal;
 
-    tmutl::identityMatrix();
-	tmutl::multiply3(transposed_inverted_matrix);
-	tmutl::multiply1(unit_normal.e, normal.e);
+    tmutl utils = tmutl();
+    utils.identityMatrix();
+    utils.multiply3(transposed_inverted_matrix);
+    utils.multiply1(unit_normal.e, normal.e);
 
 	normal.e[3] = 0;
 
@@ -56,8 +58,9 @@ vec3 calculate_normal(vec3 unit_normal, double transposed_inverted_matrix[4][4])
 }
 
 vec3 calculate_point(vec3 pointAtObjectReferential, double transformationMatrix[4][4]) {
-	tmutl::identityMatrix();
-	tmutl::multiply3(transformationMatrix);
+    tmutl utils = tmutl();
+    utils.identityMatrix();
+    utils.multiply3(transformationMatrix);
 
 	double auxMatrix[4][1];
 
@@ -65,13 +68,13 @@ vec3 calculate_point(vec3 pointAtObjectReferential, double transformationMatrix[
 	auxMatrix[1][0] = pointAtObjectReferential.y();
 	auxMatrix[2][0] = pointAtObjectReferential.z();
 	auxMatrix[3][0] = 1;
-	tmutl::multiply4x4b4x1(auxMatrix);
+    utils.multiply4x4b4x1(auxMatrix);
 
 	vec3 point;
 
-	point.e[0] = tmutl::transformMatrix[0][0];
-	point.e[1] = tmutl::transformMatrix[1][0];
-	point.e[2] = tmutl::transformMatrix[2][0];
+	point.e[0] = utils.transformMatrix[0][0];
+	point.e[1] = utils.transformMatrix[1][0];
+	point.e[2] = utils.transformMatrix[2][0];
 
 	return point;
 }
@@ -90,6 +93,8 @@ vec3 color(ray& r, int level) {
 
 	    vec3 tempPoint;
 		ray tempRay = r;
+
+		//if (!(*it)->boundingBox.hit_object(r)) continue;
 
 		// transforms ray to object referential
 		tempRay.transform((*it)->transformation.inverseMatrix);
@@ -149,9 +154,11 @@ vec3 color(ray& r, int level) {
             vec3 lightCenter;
             vec3 tempLightCenter = vec3(0, 0, 0);
             tempLightCenter.e[3] = 1;
-            tmutl::identityMatrix();
-            tmutl::multiply3((*lightIterator).transformation.matrix);
-            tmutl::multiply1(tempLightCenter.e, lightCenter.e);
+
+            tmutl utils = tmutl();
+            utils.identityMatrix();
+            utils.multiply3((*lightIterator).transformation.matrix);
+            utils.multiply1(tempLightCenter.e, lightCenter.e);
             lightCenter.e[3] = 1;
 
             if (AMBIENT) {
@@ -275,45 +282,63 @@ void export_image() {
 	vec3 vertical(0.0, height, 0.0);
     vec3 origin(0.0, 0.0, camera.distance);
 
-	vec3 col(0, 0, 0);
+    int NUM_THREADS = std::thread::hardware_concurrency();
 
-	for (int j = image.height - 1; j >= 0; j--) {
-		for (int i = 0; i < image.width; i++) {
+    std::thread myThreads[NUM_THREADS];
+    std::string outputs[NUM_THREADS];
 
-		    if (ANTI_ALIASING_RATE > 0) {
-		        for (int s = 0; s < ANTI_ALIASING_RATE; s++) {
-                    double rand_num = ((double)rand() / (RAND_MAX)); //random number between 0 and 1
+    for (int x = 0; x < NUM_THREADS; x++) {
 
-                    //u and v are coordinates of the pixel in the image, (u,v).
-                    double u = (i + rand_num) / image.width;
-                    double v = (j + rand_num) / image.height;
+        int index = x;
+
+        myThreads[x] = std::thread([index, &outputs, &NUM_THREADS, &origin, &lower_left_corner, &horizontal, &vertical] {
+            vec3 col(0, 0, 0);
+
+            for (int j = (image.height/NUM_THREADS)*(NUM_THREADS-index) - 1; j >= 0; j--) {
+                for (int i = 0; i < image.width; i++) {
+
+                    if (ANTI_ALIASING_RATE > 0) {
+                        for (int s = 0; s < ANTI_ALIASING_RATE; s++) {
+                            double rand_num = ((double)rand() / (RAND_MAX)); //random number between 0 and 1
+
+                            //u and v are coordinates of the pixel in the image, (u,v).
+                            double u = (i + rand_num) / image.width;
+                            double v = (j + rand_num) / image.height;
 
 
-                    //ray is p(t) = A + t*B, A being the origin and B being the direction
-                    ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
+                            //ray is p(t) = A + t*B, A being the origin and B being the direction
+                            ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
 
-                    col += color(r, RECURSION_LEVEL);
+                            col += color(r, RECURSION_LEVEL);
+                        }
+                        col /= double(ANTI_ALIASING_RATE);
+                    } else {
+                        //u and v are coordinates of the pixel in the image, (u,v).
+                        double u = (i + 0.5) / image.width;
+                        double v = (j + 0.5) / image.height;
+
+
+                        //ray is p(t) = A + t*B, A being the origin and B being the direction
+                        ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
+
+                        col = color(r, RECURSION_LEVEL);
+                    }
+
+
+                    int ir = int(255.99*col[0]);
+                    int ig = int(255.99*col[1]);
+                    int ib = int(255.99*col[2]);
+                    outputs[index] +=  std::to_string(ir) + " " + std::to_string(ig) + " " + std::to_string(ib) + "\n";
                 }
-                col /= double(ANTI_ALIASING_RATE);
-		    } else {
-                //u and v are coordinates of the pixel in the image, (u,v).
-                double u = (i + 0.5) / image.width;
-                double v = (j + 0.5) / image.height;
+            }
+        });
+    };
 
+    for (int x = 0; x < NUM_THREADS; x++) {
 
-                //ray is p(t) = A + t*B, A being the origin and B being the direction
-                ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
-
-                col = color(r, RECURSION_LEVEL);
-		    }
-
-
-			int ir = int(255.99*col[0]);
-			int ig = int(255.99*col[1]);
-			int ib = int(255.99*col[2]);
-			outfile << ir << " " << ig << " " << ib << std::endl;
-		}
-	}
+        myThreads[x].join();
+        outfile << outputs[x] << std::endl;
+    }
 
 	outfile.close();
 	std::cout << "Finished exporting" << "\n";
@@ -366,6 +391,7 @@ int main(int argc, const char * argv[]) {
     }
 
     clock_t timeStart = clock();
+    auto t_start = std::chrono::high_resolution_clock::now();
 
     //imports file
     import_file::importScene(image, materials, transformations, lights, objects, camera, inputFile);
@@ -374,8 +400,10 @@ int main(int argc, const char * argv[]) {
 	export_image();
 
     clock_t timeEnd = clock();
+    auto t_end = std::chrono::high_resolution_clock::now();
 
-    printf("Render time: %04.2f (sec)\n", (float)(timeEnd - timeStart) / CLOCKS_PER_SEC);
+    printf("CPU time used: %04.2f (sec)\n", (float)(timeEnd - timeStart) / CLOCKS_PER_SEC);
+    printf("Wall clock time passed: %04.2f (sec)\n", std::chrono::duration<double, std::milli>(t_end-t_start).count() / 1000);
 
     //to press enter to leave
 	//getchar(); 

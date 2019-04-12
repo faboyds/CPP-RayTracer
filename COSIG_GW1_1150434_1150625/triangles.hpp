@@ -21,7 +21,6 @@ class Triangles : public SceneObject{
 public:
 
     std::vector<Triangle> triangles;
-    BoundingBox objectReferencialBoundingBox = BoundingBox(vec3(-9999,-9999,-9999), vec3(9999,9999,9999));
 
     Triangles(
               Transformation &transformation,

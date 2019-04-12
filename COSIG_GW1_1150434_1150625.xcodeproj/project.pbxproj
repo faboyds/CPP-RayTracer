@@ -20,7 +20,6 @@
 		94235E4D2225DE000083391E /* sceneObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94235E3C2225DE000083391E /* sceneObject.cpp */; };
 		94235E4E2225DE000083391E /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94235E3E2225DE000083391E /* light.cpp */; };
 		94235E4F2225DE000083391E /* import_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94235E412225DE000083391E /* import_file.cpp */; };
-		94235E502225DE000083391E /* transformation_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94235E422225DE000083391E /* transformation_utils.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -63,7 +62,7 @@
 		94235E3F2225DE000083391E /* triangles.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = triangles.hpp; path = COSIG_GW1_1150434_1150625/triangles.hpp; sourceTree = SOURCE_ROOT; };
 		94235E402225DE000083391E /* vertex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = vertex.hpp; path = COSIG_GW1_1150434_1150625/vertex.hpp; sourceTree = SOURCE_ROOT; };
 		94235E412225DE000083391E /* import_file.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = import_file.cpp; path = COSIG_GW1_1150434_1150625/import_file.cpp; sourceTree = SOURCE_ROOT; };
-		94235E422225DE000083391E /* transformation_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transformation_utils.cpp; path = COSIG_GW1_1150434_1150625/transformation_utils.cpp; sourceTree = SOURCE_ROOT; };
+		94A88DA02234C37E00422B51 /* transformation_utils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = transformation_utils.hpp; sourceTree = "<group>"; };
 		94D152CD221D9024006DAECB /* COSIG_GW1_1150434_1150625 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = COSIG_GW1_1150434_1150625; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D152DC221D93CE006DAECB /* test_scene.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = test_scene.txt; sourceTree = "<group>"; };
 		94D152DD221D93CE006DAECB /* evaluation_scene.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = evaluation_scene.txt; sourceTree = "<group>"; };
@@ -109,6 +108,7 @@
 				94235E3B2225DE000083391E /* import_file.hpp */,
 				94235E3E2225DE000083391E /* light.cpp */,
 				94235E352225DDFF0083391E /* light.hpp */,
+				94A88DA02234C37E00422B51 /* transformation_utils.hpp */,
 				94235E282225DDFF0083391E /* main.cpp */,
 				94235E332225DDFF0083391E /* material.cpp */,
 				94235E372225DE000083391E /* material.hpp */,
@@ -117,7 +117,6 @@
 				94235E382225DE000083391E /* sceneObject.hpp */,
 				94235E392225DE000083391E /* sphere.cpp */,
 				94235E3D2225DE000083391E /* sphere.hpp */,
-				94235E422225DE000083391E /* transformation_utils.cpp */,
 				94235E2D2225DDFF0083391E /* transformation.cpp */,
 				94235E322225DDFF0083391E /* transformation.hpp */,
 				94235E2B2225DDFF0083391E /* triangle.cpp */,
@@ -205,7 +204,6 @@
 				94235E4C2225DE000083391E /* camera.cpp in Sources */,
 				94235E4D2225DE000083391E /* sceneObject.cpp in Sources */,
 				94235E452225DE000083391E /* triangle.cpp in Sources */,
-				94235E502225DE000083391E /* transformation_utils.cpp in Sources */,
 				94235E4A2225DE000083391E /* material.cpp in Sources */,
 				94235E4F2225DE000083391E /* import_file.cpp in Sources */,
 				94235E442225DE000083391E /* box.cpp in Sources */,

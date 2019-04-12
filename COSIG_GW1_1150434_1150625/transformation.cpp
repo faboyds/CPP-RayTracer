@@ -9,7 +9,6 @@
 #include "transformation.hpp"
 
 #include <algorithm>    // std::copy
-#include "transformation_utils.hpp"
 
 
 Transformation::Transformation()
@@ -46,18 +45,20 @@ std::ostream& operator<<(std::ostream &strm, const Transformation &t) {
 
 // matrix [height][width]
 void Transformation::buildMatrix(double mOut[4][4]) {
+    tmutl utils = tmutl();
 
-    tmutl::identityMatrix();
-    tmutl::translate(x, y, z);
-    tmutl::rotateX(rotationX);
-    tmutl::rotateY(rotationY);
-    tmutl::rotateZ(rotationZ);
-    tmutl::scale(scaleX, scaleY, scaleZ);
+    utils.identityMatrix();
+    utils.translate(x, y, z);
+    utils.rotateX(rotationX);
+    utils.rotateY(rotationY);
+    utils.rotateZ(rotationZ);
+    utils.scale(scaleX, scaleY, scaleZ);
 
-    memcpy(mOut, tmutl::transformMatrix, sizeof(tmutl::transformMatrix));
+    memcpy(mOut, utils.transformMatrix, sizeof(utils.transformMatrix));
 }
 
 void Transformation::buildInverseMatrix(double mIn[4][4], double mOut[4][4]) {
+    tmutl utils = tmutl();
 
     double tempMIn[16];
     double tempMOut[16];
@@ -65,7 +66,7 @@ void Transformation::buildInverseMatrix(double mIn[4][4], double mOut[4][4]) {
     memcpy(tempMIn, mIn, sizeof(tempMIn));
     memcpy(tempMOut, mOut, sizeof(tempMOut));
 
-    tmutl::inverse(tempMIn, tempMOut);
+    utils.inverse(tempMIn, tempMOut);
 
     memcpy(mIn, tempMIn, sizeof(tempMIn));
     memcpy(mOut, tempMOut, sizeof(tempMOut));
