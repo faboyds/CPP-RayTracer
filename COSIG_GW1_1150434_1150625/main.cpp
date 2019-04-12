@@ -41,6 +41,7 @@ bool AMBIENT = false;
 bool DIFFUSE = false;
 bool REFLECTION = false;
 bool REFRACTION = false;
+bool SOFT_SHADOWS = false;
 int ANTI_ALIASING_RATE = 4;
 int RECURSION_LEVEL = 2;
 
@@ -168,52 +169,76 @@ vec3 color(ray& r, int level) {
 
             if (DIFFUSE) {
                 // DIFFUSE CONTRIBUTION
-                bool isInShadow = false;
+                int countInShadows = 0;
 
-                double Llength = (lightCenter - point).length(); // vector L length
-                ray rayPointToLight = ray(point, unit_vector(lightCenter - point)); // vector L normalize
+                int totalTestShadowRays = 4;
 
-
-                for (std::vector<SceneObject *>::iterator objectIt = objects.begin();
-                     objectIt != objects.end(); ++objectIt) {
-
-                    double t;
-
-                    ray tempRay = rayPointToLight;
-                    vec3 tempPoint;
-
-                    // transforms ray to object referential
-                    tempRay.transform((*objectIt)->transformation.inverseMatrix);
-
-                    if (Triangles *triangles = dynamic_cast<Triangles *>(*objectIt)) {
-                        t = (*triangles).hit_object(tempRay);
-                    } else {
-                        t = (*objectIt)->hit_object(tempRay);
-                    }
-
-                    if (t < EPSILON) {
-                        continue;
-                    }
-
-                    vec3 pointAtObjectReferential = tempRay.point_at_parameter(t);
-                    tempPoint = calculate_point(pointAtObjectReferential, (*objectIt)->transformation.matrix);
-
-                    // calculates world t
-                    t = rayPointToLight.t_to_point(tempPoint);
-
-                    if (t < Llength) {
-                        isInShadow = true;
-                        break;
-                    }
+                if(!SOFT_SHADOWS) {
+                    totalTestShadowRays = 1;
                 }
 
-                if (!isInShadow) {
+                vec3 diffuseColor(0,0,0);
+
+                const vec3 lightPoints[4] = {
+                        vec3(-1, 0, -1),
+                        vec3(-1, 0, 1),
+                        vec3(1, 0, 1),
+                        vec3(1, 0, -1),
+                };
+
+                // if soft shadows are disabled, this loop will only run once
+                for (int i = 0; i < totalTestShadowRays; i++) {
+
+                    vec3 moveBy = lightPoints[i];
+
+                    if (!SOFT_SHADOWS) {
+                        moveBy = vec3(0,0,0);
+                    }
+
+                    double Llength = ((lightCenter + moveBy) - point).length(); // vector L length
+                    ray rayPointToLight = ray(point, unit_vector((lightCenter + moveBy) - point)); // vector L normalize
+
+
+                    for (std::vector<SceneObject *>::iterator objectIt = objects.begin();
+                         objectIt != objects.end(); ++objectIt) {
+
+                        double t;
+
+                        ray tempRay = rayPointToLight;
+                        vec3 tempPoint;
+
+                        // transforms ray to object referential
+                        tempRay.transform((*objectIt)->transformation.inverseMatrix);
+
+                        if (Triangles *triangles = dynamic_cast<Triangles *>(*objectIt)) {
+                            t = (*triangles).hit_object(tempRay);
+                        } else {
+                            t = (*objectIt)->hit_object(tempRay);
+                        }
+
+                        if (t < EPSILON) {
+                            continue;
+                        }
+
+                        vec3 pointAtObjectReferential = tempRay.point_at_parameter(t);
+                        tempPoint = calculate_point(pointAtObjectReferential, (*objectIt)->transformation.matrix);
+
+                        // calculates world t
+                        t = rayPointToLight.t_to_point(tempPoint);
+
+                        if (t < Llength) {
+                            countInShadows++;
+                            break;
+                        }
+                    }
+
                     double d = dot(rayPointToLight.direction(), normal);
                     if (d > 0) {
-                        tempColor += lightColor * materialColor * material.diffuse * (d);
+                        diffuseColor += lightColor * materialColor * material.diffuse * (d);
                     }
                 }
 
+                tempColor += (diffuseColor / totalTestShadowRays) * (1 - ((float)countInShadows / (float)totalTestShadowRays));
             }
 
             if (level > 0) {
@@ -386,12 +411,16 @@ int main(int argc, const char * argv[]) {
             else if (!strcmp(lightComponent, "refraction")) {
                 REFRACTION = true;
             }
+            else if (!strcmp(lightComponent, "soft-shadows")) {
+                SOFT_SHADOWS = true;
+            }
         }
     } else {
         AMBIENT = true;
         DIFFUSE = true;
         REFLECTION = true;
         REFRACTION = true;
+        SOFT_SHADOWS = true;
     }
 
     clock_t timeStart = clock();
