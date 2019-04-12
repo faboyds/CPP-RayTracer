@@ -294,7 +294,7 @@ void export_image() {
         myThreads[x] = std::thread([index, &outputs, &NUM_THREADS, &origin, &lower_left_corner, &horizontal, &vertical] {
             vec3 col(0, 0, 0);
 
-            for (int j = (image.height/NUM_THREADS)*(NUM_THREADS-index) - 1; j >= 0; j--) {
+            for (int j = (image.height/NUM_THREADS)*(NUM_THREADS-index) - 1; j >= (image.height/NUM_THREADS)*(NUM_THREADS-(index+1)); j--) {
                 for (int i = 0; i < image.width; i++) {
 
                     if (ANTI_ALIASING_RATE > 0) {
