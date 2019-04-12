@@ -312,11 +312,14 @@ void export_image() {
     std::thread myThreads[NUM_THREADS];
     std::string outputs[NUM_THREADS];
 
+	double focalLength = 74;
+	double apertureSize = 2;
+
     for (int x = 0; x < NUM_THREADS; x++) {
 
         int index = x;
 
-        myThreads[x] = std::thread([index, &outputs, &NUM_THREADS, &origin, &lower_left_corner, &horizontal, &vertical] {
+        myThreads[x] = std::thread([index, &outputs, &NUM_THREADS, &origin, &lower_left_corner, &horizontal, &vertical, focalLength, apertureSize ] {
             vec3 col(0, 0, 0);
 
             for (int j = (image.height/NUM_THREADS)*(NUM_THREADS-index) - 1; j >= (image.height/NUM_THREADS)*(NUM_THREADS-(index+1)); j--) {
@@ -342,15 +345,35 @@ void export_image() {
 
                         col *= 1/(float)ANTI_ALIASING_RATE;
                     } else {
-                        //u and v are coordinates of the pixel in the image, (u,v).
-                        double u = (i + 0.5) / image.width;
-                        double v = (j + 0.5) / image.height;
+						//u and v are coordinates of the pixel in the image, (u,v).
+						double u = (i + 0.5) / image.width;
+						double v = (j + 0.5) / image.height;
 
 
-                        //ray is p(t) = A + t*B, A being the origin and B being the direction
-                        ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
+						//ray is p(t) = A + t*B, A being the origin and B being the direction
+						vec3 d_ = (lower_left_corner + (u * horizontal) + (v * vertical));
+						//double d_ = focalLength + 30;
+						vec3 focalPoint = origin + (d_.length() / (30 / (30 + focalLength)) * unit_vector(d_));
 
-                        col = color(r, RECURSION_LEVEL);
+						/*--_Calculating point inside circle of radius=ApertureSize*/
+						double a = ((double)rand() / (RAND_MAX)) * 2 * PI;
+						double m = apertureSize * sqrt(((double)rand() / RAND_MAX));
+
+						//in cartesian coordinates
+						double x = m * cos(a);
+						double y = m * sin(a);
+
+						vec3 random_point_aperture = vec3(x, y, 0);
+						/*------------*/
+
+						for (int t = 0; t < 4; t++) {
+							//ray is p(t) = A + t*B, A being the origin and B being the direction
+							ray r(origin + random_point_aperture, unit_vector(focalPoint - (origin + random_point_aperture)));
+
+							col += color(r, RECURSION_LEVEL);
+						}
+
+						col /= (double)4;
                     }
 
 

@@ -80,6 +80,9 @@
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\transformation_utils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\boundingBox.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\box.cpp">
@@ -120,6 +123,9 @@
     </ClCompile>
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\import_file.cpp">
       <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\boundingBox.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

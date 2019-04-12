@@ -119,6 +119,7 @@
     <Text Include="..\..\COSIG_GW1_1150434_1150625\resources\test_scene.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\boundingBox.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\box.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\camera.hpp" />
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\image.hpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="..\..\COSIG_GW1_1150434_1150625\vertex.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\boundingBox.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\box.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\camera.cpp" />
     <ClCompile Include="..\..\COSIG_GW1_1150434_1150625\image.cpp" />
