@@ -283,6 +283,8 @@ vec3 color(ray& r, int level) {
             }
         }
 
+		tempColor /= lights.size();
+
 		// updates color with new values
 		finalColor.e[0] = tempColor.e[0];
 		finalColor.e[1] = tempColor.e[1];
