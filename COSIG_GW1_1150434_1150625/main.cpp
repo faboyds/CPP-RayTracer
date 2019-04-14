@@ -37,6 +37,11 @@ std::vector<Light> lights;
 std::vector<SceneObject *> objects;
 std::string outputFile;
 
+/*---ARGUMENTS---*/
+double FOCAL_LENGTH = 0;
+double APERTURE_SIZE = 0;
+int NUM_RAYS_DOF = 2;
+
 bool AMBIENT = false;
 bool DIFFUSE = false;
 bool REFLECTION = false;
@@ -314,14 +319,11 @@ void export_image() {
     std::thread myThreads[NUM_THREADS];
     std::string outputs[NUM_THREADS];
 
-	double focalLength = 74;
-	double apertureSize = 2;
-
     for (int x = 0; x < NUM_THREADS; x++) {
 
         int index = x;
 
-        myThreads[x] = std::thread([index, &outputs, &NUM_THREADS, &origin, &lower_left_corner, &horizontal, &vertical, focalLength, apertureSize ] {
+        myThreads[x] = std::thread([index, &outputs, &NUM_THREADS, &origin, &lower_left_corner, &horizontal, &vertical] {
             vec3 col(0, 0, 0);
 
             for (int j = (image.height/NUM_THREADS)*(NUM_THREADS-index) - 1; j >= (image.height/NUM_THREADS)*(NUM_THREADS-(index+1)); j--) {
@@ -332,50 +334,88 @@ void export_image() {
                         col = vec3(0, 0, 0);
 
                         for (int s = 0; s < ANTI_ALIASING_RATE; s++) {
-                            double rand_num = ((double)rand() / (RAND_MAX)); //random number between 0 and 1
 
-                            //u and v are coordinates of the pixel in the image, (u,v).
-                            double u = (i + rand_num) / image.width;
-                            double v = (j + rand_num) / image.height;
+							double rand_num = ((double)rand() / (RAND_MAX)); //random number between 0 and 1
 
+							//u and v are coordinates of the pixel in the image, (u,v).
+							double u = (i + rand_num) / image.width;
+							double v = (j + rand_num) / image.height;
 
-                            //ray is p(t) = A + t*B, A being the origin and B being the direction
-                            ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
+							if (FOCAL_LENGTH < 1 || APERTURE_SIZE < 1) {
 
-                            col += color(r, RECURSION_LEVEL);
+								//ray is p(t) = A + t*B, A being the origin and B being the direction
+								ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
+
+								col += color(r, RECURSION_LEVEL);
+							}
+							else {
+								//calculating the focal point
+								vec3 d_ = (lower_left_corner + (u * horizontal) + (v * vertical));
+
+								vec3 focalPoint = origin + (d_.length() / (camera.distance / (camera.distance + FOCAL_LENGTH)) * unit_vector(d_));
+
+								/*--_Calculating point inside circle of radius=ApertureSize*/
+								double a = ((double)rand() / (RAND_MAX)) * 2 * PI;
+								double m = APERTURE_SIZE * sqrt(((double)rand() / RAND_MAX));
+
+								//in cartesian coordinates
+								double x = m * cos(a);
+								double y = m * sin(a);
+
+								vec3 random_point_aperture = vec3(x, y, 0);
+								/*------------*/
+
+								for (int t = 0; t < NUM_RAYS_DOF; t++) {
+									//ray is p(t) = A + t*B, A being the origin and B being the direction
+									ray r(origin + random_point_aperture, unit_vector(focalPoint - (origin + random_point_aperture)));
+
+									col += color(r, RECURSION_LEVEL);
+								}
+
+								col /= (double)NUM_RAYS_DOF;
+							}
+
                         }
 
                         col *= 1/(float)ANTI_ALIASING_RATE;
                     } else {
+						col = vec3(0, 0, 0);
+
 						//u and v are coordinates of the pixel in the image, (u,v).
 						double u = (i + 0.5) / image.width;
 						double v = (j + 0.5) / image.height;
 
-
-						//ray is p(t) = A + t*B, A being the origin and B being the direction
-						vec3 d_ = (lower_left_corner + (u * horizontal) + (v * vertical));
-						//double d_ = focalLength + 30;
-						vec3 focalPoint = origin + (d_.length() / (30 / (30 + focalLength)) * unit_vector(d_));
-
-						/*--_Calculating point inside circle of radius=ApertureSize*/
-						double a = ((double)rand() / (RAND_MAX)) * 2 * PI;
-						double m = apertureSize * sqrt(((double)rand() / RAND_MAX));
-
-						//in cartesian coordinates
-						double x = m * cos(a);
-						double y = m * sin(a);
-
-						vec3 random_point_aperture = vec3(x, y, 0);
-						/*------------*/
-
-						for (int t = 0; t < 4; t++) {
-							//ray is p(t) = A + t*B, A being the origin and B being the direction
-							ray r(origin + random_point_aperture, unit_vector(focalPoint - (origin + random_point_aperture)));
-
-							col += color(r, RECURSION_LEVEL);
+						if (FOCAL_LENGTH <1 || APERTURE_SIZE <1) {
+							ray r(origin, unit_vector(lower_left_corner + (u * horizontal) + (v * vertical)));
+							col = color(r, RECURSION_LEVEL);
 						}
+						else {
+							//calculating the focal point
+							vec3 d_ = (lower_left_corner + (u * horizontal) + (v * vertical));
 
-						col /= (double)4;
+							vec3 focalPoint = origin + (d_.length() / (camera.distance / (camera.distance + FOCAL_LENGTH)) * unit_vector(d_));
+
+							/*--_Calculating point inside circle of radius=ApertureSize*/
+							double a = ((double)rand() / (RAND_MAX)) * 2 * PI;
+							double m = APERTURE_SIZE * sqrt(((double)rand() / RAND_MAX));
+
+							//in cartesian coordinates
+							double x = m * cos(a);
+							double y = m * sin(a);
+
+							vec3 random_point_aperture = vec3(x, y, 0);
+							/*------------*/
+
+							for (int t = 0; t < NUM_RAYS_DOF; t++) {
+								//ray is p(t) = A + t*B, A being the origin and B being the direction
+								ray r(origin + random_point_aperture, unit_vector(focalPoint - (origin + random_point_aperture)));
+
+								col += color(r, RECURSION_LEVEL);
+							}
+
+							col /= (double)NUM_RAYS_DOF;
+						}
+						
                     }
 
 
@@ -420,8 +460,33 @@ int main(int argc, const char * argv[]) {
         std::cerr << "Trailing characters after number: " << argv[4] << '\n';
     }
 
-    if (argc > 5) {
-        for (int i = 4; i < argc; i++) {
+	ss = std::istringstream(argv[5]);
+	if (!(ss >> FOCAL_LENGTH)) {
+		std::cerr << "Invalid number: " << argv[5] << '\n';
+	}
+	else if (!ss.eof()) {
+		std::cerr << "Trailing characters after number: " << argv[5] << '\n';
+	}
+
+	ss = std::istringstream(argv[6]);
+	if (!(ss >> APERTURE_SIZE)) {
+		std::cerr << "Invalid number: " << argv[6] << '\n';
+	}
+	else if (!ss.eof()) {
+		std::cerr << "Trailing characters after number: " << argv[6] << '\n';
+	}
+
+	ss = std::istringstream(argv[7]);
+	if (!(ss >> NUM_RAYS_DOF)) {
+		std::cerr << "Invalid number: " << argv[7] << '\n';
+	}
+	else if (!ss.eof()) {
+		std::cerr << "Trailing characters after number: " << argv[7] << '\n';
+	}
+
+
+    if (argc > 8) {
+        for (int i = 7; i < argc; i++) {
             const char* lightComponent = argv[i];
 
             if (!strcmp(lightComponent, "ambient")) {
